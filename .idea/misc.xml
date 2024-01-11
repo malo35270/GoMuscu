@@ -1,0 +1,27 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonnees1/app/src/main/res/layout/activity_afficher_contacts.xml" value="0.36666666666666664" />
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonnees1/app/src/main/res/layout/activity_ajouter_contact.xml" value="0.15885416666666666" />
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonnees1/app/src/main/res/layout/activity_editer_contact.xml" value="0.264" />
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonnees1/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonnees1/app/src/main/res/layout/activity_modifier_contact.xml" value="0.2" />
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonnees1/app/src/main/res/layout/activity_modifier_un_contact.xml" value="0.15885416666666666" />
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonnees1/app/src/main/res/layout/activity_supprimer_contact.xml" value="0.264" />
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonneesNew/app/src/main/res/layout/activity_afficher_contacts.xml" value="0.25416666666666665" />
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonneesNew/app/src/main/res/layout/activity_ajouter_contact.xml" value="0.4" />
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonneesNew/app/src/main/res/layout/activity_main.xml" value="0.24010416666666667" />
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonneesNew/app/src/main/res/layout/activity_modifier_contact.xml" value="0.2" />
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonneesNew/app/src/main/res/layout/activity_modifier_un_contact.xml" value="0.264" />
+        <entry key="..\:/Documents/SUPELEC/eleves/NouveauCursus/IngenierieApplicationsMobilesSG6/Android/BaseDeDonnees/ProjetsPersitanceDonnees/ProjetBaseDeDonneesNew/app/src/main/res/layout/activity_supprimer_contact.xml" value="0.264" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(i);
         }
         if (v == boutonGestionnaireMesocycle) {
-            i.setClass(getApplicationContext(), SupprimerContactActivity.class);
+            i.setClass(getApplicationContext(), GestionMesocycle.class);
             startActivity(i);
         }
         if (v == boutonParametreCompte) {

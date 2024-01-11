@@ -18,7 +18,7 @@
             android:name=".SupprimerContactActivity"
             android:exported="false" />
         <activity android:name=".AfficherContactsActivity" />
-        <activity android:name=".AjouterContactActivity" />
+        <activity android:name=".NouvelleSeance" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

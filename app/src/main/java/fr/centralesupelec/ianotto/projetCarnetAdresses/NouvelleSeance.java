@@ -3,40 +3,35 @@ package fr.centralesupelec.ianotto.projetCarnetAdresses;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import fr.centralesupelec.ianotto.projetCarnetAdresses.R;
-public class AjouterContactActivity extends AppCompatActivity  {
-    private Button boutonValider;
-    private Button boutonEffacer;
-    private EditText editTextNom;
-    private EditText editTextTelephone;
+public class NouvelleSeance extends AppCompatActivity  {
+    private Button boutonSeanceA;
+    private Button boutonSeanceB;
+    private Button boutonSeanceC;
     private ContactOperations contactOperations;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ajouter_contact);
+        setContentView(R.layout.activity_nouvelle_seance);
 
         // On récupère une référence sur l’objet contactOperations qui
         // a été créé dans MainActivity
         // A COMPLETER
 
-        // On récupère une référence sur le bouton Valider
-        boutonValider = findViewById(R.id.buttonValiderAjouterContact);
         // On récupère une référence sur le bouton Effacer
-        boutonEffacer = findViewById(R.id.buttonEffacerAjouterContact);
+        boutonSeanceA = findViewById(R.id.boutonSeanceA);
+        boutonSeanceA.setText("toto1");
 
-        // On récupère une référence sur les champs d'édition de l'activité : nom et numéro
-        // de téléphone et on place un filtre de 10 caractères sur le champs de saisi du
-        //  numéro de téléphone
-        editTextNom = findViewById(R.id.editTextNomAjouterContact);
-        editTextTelephone = findViewById(R.id.editTextTelephoneAjouterContact);
-        editTextTelephone.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10)});
+        boutonSeanceB = findViewById(R.id.boutonSeanceB);
+        boutonSeanceB.setText("toto2");
 
+        boutonSeanceC = findViewById(R.id.boutonSeanceC);
+        boutonSeanceC.setText("toto3");
         // Pour que la flèche s'affiche dans la barre de titre de l'activité
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

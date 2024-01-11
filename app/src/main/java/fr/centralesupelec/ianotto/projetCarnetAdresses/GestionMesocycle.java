@@ -2,34 +2,26 @@ package fr.centralesupelec.ianotto.projetCarnetAdresses;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Vector;
-
-import fr.centralesupelec.ianotto.projetCarnetAdresses.R;
-public class SupprimerContactActivity extends AppCompatActivity  {
-    private ContactOperations contactOperations;
-    private ListView listViewContacts;
-    private Vector<Contact> lContacts;
-    private Button boutonSupprimer;
-
-    private Contact c;
+public class GestionMesocycle extends AppCompatActivity  {
+    private Button boutonCurrentMeso;
+    private Button boutonNewMeso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_supprimer_contact);
+        setContentView(R.layout.activity_gestionnaire_meso);
 
         // On récupère une référence sur l’objet contactOperations qui
         // a été créé dans MainActivity
         // A COMPLETER
 
         // On récupère une référence sur le ListView de l'activité
-        listViewContacts = findViewById(R.id.listViewSupprimerContact);
+        boutonCurrentMeso = findViewById(R.id.boutonCurrentMeso);
         // On récupère une référence sur le bouton Valider
-        boutonSupprimer = findViewById(R.id.buttonSupprimerContact);
+        boutonNewMeso = findViewById(R.id.boutonNewMeso);
 
         // Pour que la flèche s'affiche dans la barre de titre de l'activité
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

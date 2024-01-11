@@ -27,10 +27,10 @@
             android:name=".ModifierContactActivity"
             android:exported="false" />
         <activity
-            android:name=".SupprimerContactActivity"
+            android:name=".GestionMesocycle"
             android:exported="false" />
         <activity android:name=".AfficherContactsActivity" />
-        <activity android:name=".AjouterContactActivity" />
+        <activity android:name=".NouvelleSeance" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

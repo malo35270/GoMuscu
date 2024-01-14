@@ -13,30 +13,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button boutonReprendreSeance;
     private Button boutonGestionnaireMesocycle;
     private Button boutonParametreCompte;
-    public static ContactOperations contactOperations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // On crée un objet de type ContactOperations
-        contactOperations = new ContactOperations(getApplicationContext());
-
-        // On récupère une référence sur les 4 boutons de l'activité
-        // On récupère une référence sur le bouton "MainAct_Btn_Ajouter_Contact"
         boutonNouvelleSeance = findViewById(R.id.boutonDemarrerUneNouvelleSeance);
         boutonNouvelleSeance.setOnClickListener(this);
 
-        // On récupère une référence sur le bouton "MainAct_Btn_Afficher_Contact"
         boutonReprendreSeance = findViewById(R.id.MainAct_Btn_ReprendreSeance);
         boutonReprendreSeance.setOnClickListener(this);
 
-        // On récupère une référence sur le bouton "MainAct_Btn_Supprimer_Contact"
         boutonGestionnaireMesocycle = findViewById(R.id.boutonGestionnaireMesocycle);
         boutonGestionnaireMesocycle.setOnClickListener(this);
 
-        // On récupère une référence sur le bouton "MainAct_Btn_Modifier_Contact"
         boutonParametreCompte = findViewById(R.id.boutonParametreCompte);
         boutonParametreCompte.setOnClickListener(this);
     }
@@ -57,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(i);
         }
         if (v == boutonParametreCompte) {
-            i.setClass(getApplicationContext(), ModifierContactActivity.class);
+            i.setClass(getApplicationContext(), parametreCompte.class);
             startActivity(i);
         }
     }

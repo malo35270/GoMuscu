@@ -8,17 +8,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetCarnetAdressesEleves">
-        <activity
-            android:name=".EditerContactActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ModifierContactActivity"
-            android:exported="false" />
+
+
         <activity
             android:name=".GestionMesocycle"
             android:exported="false" />
+        <activity android:name=".CurrentMesocycle" />
         <activity android:name=".AfficherContactsActivity" />
         <activity android:name=".NouvelleSeance" />
+        <activity android:name=".NewMesocycle" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -17,6 +17,7 @@
         <activity android:name=".AfficherContactsActivity" />
         <activity android:name=".NouvelleSeance" />
         <activity android:name=".NewMesocycle" />
+        <activity android:name=".Seance"  android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

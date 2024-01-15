@@ -9,8 +9,19 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 public class CurrentMesocycle extends AppCompatActivity  {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +56,61 @@ public class CurrentMesocycle extends AppCompatActivity  {
         //    classe ContactOperation
         //  - on réaffiche la nouvelle liste de contacts
         // A COMPLETER
+        testLectureJSON();
 
+        testEcritureJSON();
+    }
+
+    public void testEcritureJSON() {
+        // Convert JsonObject to String Format
+        String fileName = "jsonformatter1.json";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("Name", "CHAUVEL");
+            jsonObject.put("Enroll_No", "1234");
+            jsonObject.put("Mobile", "0455443344");
+            jsonObject.put("Address", "Metz");
+            jsonObject.put("Branch", "Computer Science");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        String userString = jsonObject.toString();
+        // Define the File Path and its Name
+        File file = new File(getApplicationContext().getFilesDir(), fileName);
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(userString);
+            bufferedWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public void testLectureJSON() {
+        // /data/data/fr.centralesupelec.ianotto.projetCarnetAdresses/files
+        String fileName = "jsonformatter.json";
+        File file = new File(getFilesDir(), fileName);
+        String line = null;
+        StringBuilder stringBuilder = null;
+        try {
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            stringBuilder = new StringBuilder();
+            line = bufferedReader.readLine();
+            while (line != null){
+                stringBuilder.append(line).append("\n");
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        // This responce will have Json Format String
+        String responce = stringBuilder.toString();
     }
 
     /*

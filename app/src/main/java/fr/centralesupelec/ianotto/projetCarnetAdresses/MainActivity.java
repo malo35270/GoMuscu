@@ -1,11 +1,15 @@
 package fr.centralesupelec.ianotto.projetCarnetAdresses;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.sql.Connection;
 
 import fr.centralesupelec.ianotto.projetCarnetAdresses.R;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -13,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button boutonReprendreSeance;
     private Button boutonGestionnaireMesocycle;
     private Button boutonParametreCompte;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,4 +58,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(i);
         }
     }
+
+
 }

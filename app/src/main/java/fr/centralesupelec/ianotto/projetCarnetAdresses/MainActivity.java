@@ -9,55 +9,46 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import fr.centralesupelec.ianotto.projetCarnetAdresses.R;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button boutonAjouterContact;
-    private Button boutonAfficherContact;
-    private Button boutonSupprimerContact;
-    private Button boutonModifierContact;
-    public static ContactOperations contactOperations;
+    private Button boutonNouvelleSeance;
+    private Button boutonReprendreSeance;
+    private Button boutonGestionnaireMesocycle;
+    private Button boutonParametreCompte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // On crée un objet de type ContactOperations
-        contactOperations = new ContactOperations(getApplicationContext());
+        boutonNouvelleSeance = findViewById(R.id.boutonDemarrerUneNouvelleSeance);
+        boutonNouvelleSeance.setOnClickListener(this);
 
-        // On récupère une référence sur les 4 boutons de l'activité
-        // On récupère une référence sur le bouton "MainAct_Btn_Ajouter_Contact"
-        boutonAjouterContact = findViewById(R.id.boutonAjouterMainActivity);
-        boutonAjouterContact.setOnClickListener(this);
+        boutonReprendreSeance = findViewById(R.id.MainAct_Btn_ReprendreSeance);
+        boutonReprendreSeance.setOnClickListener(this);
 
-        // On récupère une référence sur le bouton "MainAct_Btn_Afficher_Contact"
-        boutonAfficherContact = findViewById(R.id.MainAct_Btn_Afficher_Contact);
-        boutonAfficherContact.setOnClickListener(this);
+        boutonGestionnaireMesocycle = findViewById(R.id.boutonGestionnaireMesocycle);
+        boutonGestionnaireMesocycle.setOnClickListener(this);
 
-        // On récupère une référence sur le bouton "MainAct_Btn_Supprimer_Contact"
-        boutonSupprimerContact = findViewById(R.id.boutonSupprimerMainActivity);
-        boutonSupprimerContact.setOnClickListener(this);
-
-        // On récupère une référence sur le bouton "MainAct_Btn_Modifier_Contact"
-        boutonModifierContact = findViewById(R.id.boutonMidifierMainActivity);
-        boutonModifierContact.setOnClickListener(this);
+        boutonParametreCompte = findViewById(R.id.boutonParametreCompte);
+        boutonParametreCompte.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         Intent i = new Intent();
-        if (v == boutonAjouterContact) {
-            i.setClass(getApplicationContext(), AjouterContactActivity.class);
+        if (v == boutonNouvelleSeance) {
+            i.setClass(getApplicationContext(), NouvelleSeance.class);
             startActivity(i);
         }
-        if (v == boutonAfficherContact) {
+        if (v == boutonReprendreSeance) {
             i.setClass(getApplicationContext(), AfficherContactsActivity.class);
             startActivity(i);
         }
-        if (v == boutonSupprimerContact) {
-            i.setClass(getApplicationContext(), SupprimerContactActivity.class);
+        if (v == boutonGestionnaireMesocycle) {
+            i.setClass(getApplicationContext(), GestionMesocycle.class);
             startActivity(i);
         }
-        if (v == boutonModifierContact) {
-            i.setClass(getApplicationContext(), ModifierContactActivity.class);
+        if (v == boutonParametreCompte) {
+            i.setClass(getApplicationContext(), parametreCompte.class);
             startActivity(i);
         }
     }

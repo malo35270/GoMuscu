@@ -1,13 +1,15 @@
 package fr.centralesupelec.ianotto.projetCarnetAdresses;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-public class NouvelleSeance extends AppCompatActivity  {
+public class NouvelleSeance extends AppCompatActivity implements View.OnClickListener {
     private Button boutonSeanceA;
     private Button boutonSeanceB;
     private Button boutonSeanceC;
@@ -18,10 +20,6 @@ public class NouvelleSeance extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nouvelle_seance);
-
-        // On récupère une référence sur l’objet contactOperations qui
-        // a été créé dans MainActivity
-        // A COMPLETER
 
         // On récupère une référence sur le bouton Effacer
         boutonSeanceA = findViewById(R.id.boutonSeanceA);
@@ -35,19 +33,10 @@ public class NouvelleSeance extends AppCompatActivity  {
         // Pour que la flèche s'affiche dans la barre de titre de l'activité
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // On gère l'évènement "click" sur le bouton "Valider"
-        // Lorsqu'on clique sur le bouton "Valider", un contact
-        // est ajouté  au vecteur puis le vecteur est enregistré dans le fichier :
-        //   - on crée un objet contact avec le contenu des composants editTextNom et editTextTelephone
-        //   - on appelle la méthode ajouterContact définie dans la classe ContactOperation
-        //   - on appelle la methode finish pour revenir à l'activité principale
-        // A COMPLETER
-
-        // On gère l'évènement "click" sur le bouton "Effacer"
-        // Lorsqu'on clique sur le bouton "Effacer", le contenu des champs
-        // Nom et Telephone est effacé :
-        //    - on écrit la chaîne de caractères vide dans les champs editTextNom et editTextTelephone
-        // A COMPLETER
+        // On gère l'évènement "click" sur les boutons
+        boutonSeanceA.setOnClickListener(this);
+        boutonSeanceB.setOnClickListener(this);
+        boutonSeanceC.setOnClickListener(this);
 
     }
 
@@ -58,5 +47,25 @@ public class NouvelleSeance extends AppCompatActivity  {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent i = new Intent();
+        if (v == boutonSeanceA) {
+            i.setClass(getApplicationContext(), Seance.class);
+            i.putExtra("seance", "toto1");
+            startActivity(i);
+        }
+        if (v == boutonSeanceB) {
+            i.setClass(getApplicationContext(), Seance.class);
+            i.putExtra("seance", "toto2");
+            startActivity(i);
+        }
+        if (v == boutonSeanceC) {
+            i.setClass(getApplicationContext(), Seance.class);
+            i.putExtra("seance", "toto3");
+            startActivity(i);
+        }
     }
 }

@@ -17,6 +17,8 @@
         <activity android:name=".AfficherContactsActivity" />
         <activity android:name=".NouvelleSeance" />
         <activity android:name=".NewMesocycle" />
+        <activity android:name=".addExo" />
+        <activity android:name=".addSeance" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

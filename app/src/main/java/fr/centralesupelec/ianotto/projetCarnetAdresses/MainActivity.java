@@ -13,12 +13,13 @@ import java.sql.Connection;
 
 import fr.centralesupelec.ianotto.projetCarnetAdresses.R;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
     private Button boutonNouvelleSeance;
     private Button boutonReprendreSeance;
     private Button boutonGestionnaireMesocycle;
     private Button boutonParametreCompte;
 
-
+    public static int num_meso=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,10 +1,16 @@
 package fr.centralesupelec.ianotto.projetCarnetAdresses;
 
+import static android.text.TextUtils.substring;
+
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,46 +23,28 @@ import java.util.Timer;
 
 public class Seance extends AppCompatActivity implements View.OnClickListener {
 
-    CountDownTimer timer;
-    MediaPlayer mediaPlayer;
+    private CountDownTimer timer;
+    private MediaPlayer mediaPlayer;
 
-    boolean isRunning = false;
-
-    private TextView name;
-    private Button old_ser;
-    private Button old_rep;
-    private Button old_kg;
-
-    private Button ser;
-    private Button rep;
-    private Button kg;
-
-    private Button plus1;
-    private Button plus2;
-    private Button plus3;
-
-    private Button minus1;
-    private Button minus2;
-    private Button minus3;
-
+    //VIEW
+    private TextView name, point;
     private ListView list;
+    private Button ser, rep, kg, plus1, plus2, plus3, old_rep, old_kg, old_ser, minus1, minus2, minus3, start, stop;
+    private EditText minutes,seconds;
 
-    private EditText minutes;
-    private TextView point;
-    private EditText seconds;
-    String seance;
-
-    private Button start;
-    private Button stop;
+    String seance, times, timem;
+    private boolean isRunning = false;
+    private long timeRemainingInMillis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seance);
 
+        // Pour que la flèche s'affiche dans la barre de titre de l'activité
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        list = findViewById(R.id.list);
-        seance = getIntent().getExtras().getString("seance","default_seance");
+        seance = getIntent().getExtras().getString("seance", "default_seance");
 
         name = findViewById(R.id.textView3);
         name.setText(seance);
@@ -103,14 +91,51 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
 
         minutes = findViewById(R.id.minutes);
         minutes.setCursorVisible(false);
+        minutes.setOnClickListener(this);
         seconds = findViewById(R.id.seconds);
         seconds.setCursorVisible(false);
+        seconds.setOnClickListener(this);
         point = findViewById(R.id.point);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
+        stop.setEnabled(false);
 
+        seconds.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                seconds.setSelection(seconds.getText().length());
+
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    // Touche OK sélectionné.
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(seconds.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        minutes.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                minutes.setSelection(minutes.getText().length());
+
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    // Touche OK sélectionné.
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(minutes.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
+
+    /*private void handleEnterKeyPress() {
+        EditText edit = (EditText) this.getCurrentFocus();
+        edit.setText(cleanZeros(edit.toString()));
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(edit.getWindowToken(), 0);
+    }*/
 
     // Méthode qui permet permet de revenir à l'activité précédente
     // lorsqu'on clique sur la flèche qui se trouve dans la barre de titre
@@ -123,46 +148,63 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v == plus1) {
-            ser.setText(String.valueOf(Integer.valueOf(ser.getText().toString()) + 1));
-        }
-        if (v == plus2) {
-            rep.setText(String.valueOf(Integer.valueOf(rep.getText().toString()) + 1));
-        }
-        if (v == plus3) {
-            kg.setText(String.valueOf(Integer.valueOf(kg.getText().toString()) + 1));
-        }
-        if(v == start){
-            //kg.setText("hello");
-            // create and setup timer
-            long millis = 60000 * Integer.valueOf(minutes.getText().toString()) + 1000 * Integer.valueOf(seconds.getText().toString()) + 1000;
-            timer = new CountDownTimer(millis, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    String min;
-                    String sec;
-                    min = String.valueOf((millisUntilFinished/1000)/60);
-                    sec = String.valueOf((millisUntilFinished/1000)%60);
+        //plus
+        if (v == plus1) {ser.setText(String.valueOf(Integer.valueOf(ser.getText().toString()) + 1));}
+        if (v == plus2) {rep.setText(String.valueOf(Integer.valueOf(rep.getText().toString()) + 1));}
+        if (v == plus3) {kg.setText(String.valueOf(Integer.valueOf(kg.getText().toString()) + 1));}
+        //minus
+        if (v == minus1) {ser.setText(String.valueOf(Integer.valueOf(ser.getText().toString()) - 1));}
+        if (v == minus2) {rep.setText(String.valueOf(Integer.valueOf(rep.getText().toString()) - 1));}
+        if (v == minus3) {kg.setText(String.valueOf(Integer.valueOf(kg.getText().toString()) - 1));}
 
-                    seconds.setText(sec);
-                    minutes.setText(min);
-                }
+        //timer
+        if (v == start) {
+            if (timer == null) {
+                times = seconds.getText().toString();
+                timem = minutes.getText().toString();
+                //creates new timer
+                timeRemainingInMillis = 60000 * Long.parseLong(minutes.getText().toString()) + 1000 * Long.parseLong(seconds.getText().toString()) + 1000;
+                timer = new CountDownTimer(timeRemainingInMillis, 1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        timeRemainingInMillis = millisUntilFinished;
+                        String min;
+                        String sec;
+                        min = String.valueOf((millisUntilFinished/1000)/60);
+                        sec = String.valueOf((millisUntilFinished/1000)%60);
 
-                @Override
-                public void onFinish() {
-                    mediaPlayer.start(); // no need to call prepare(); create() does that for you
-                }
-            };
-            isRunning = true;
-            timer.start();
-        }
-        if (v == stop){
-            if(isRunning){
-                timer.cancel();
-                isRunning = false;
+                        seconds.setText(sec);
+                        minutes.setText(min);
+                    }
+                    @Override
+                    public void onFinish() {
+                        mediaPlayer.start();
+                        timer.cancel();
+                        timer = null;
+                        minutes.setText(timem);
+                        seconds.setText(times);
+                    }
+                }.start();
+                //manages buttons
+                stop.setEnabled(true);
+                start.setText("PAUSE");
             }
-            minutes.setText("01");
+            else {
+                start.setText("START");
+                timer.cancel();
+                timer = null;
+            }
+        }
+
+        if (v == stop){
+            start.setText("START");
+            stop.setEnabled(false);
+            if (timer == null){
+                timer.cancel();
+            }
+            timer = null;
             seconds.setText("00");
+            minutes.setText("00");
         }
     }
 }

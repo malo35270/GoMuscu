@@ -1,5 +1,8 @@
 package fr.centralesupelec.ianotto.projetCarnetAdresses;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -22,16 +25,19 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.io.InputStreamReader;
 
 
 public class CurrentMesocycle extends AppCompatActivity  {
 
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_currentmeso);
+
+        dbHelper = new DatabaseHelper(getApplicationContext());
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
@@ -50,7 +56,8 @@ public class CurrentMesocycle extends AppCompatActivity  {
         LinearLayout monLayout = findViewById(R.id.layoutCurrentMeso);
 
         try {
-            JSONObject obj = new JSONObject(testLectureJSON(MainActivity.num_meso));
+            String file = "jsonfileCurrent.json";
+            JSONObject obj = new JSONObject(testLectureJSON(file));
             Log.i("json", String.valueOf(obj.getInt("nb_de_seance")));
             for (int i = 1; i < obj.getInt("nb_de_seance")+1; i++){
                 LinearLayout SeanceLayout = new LinearLayout(getApplicationContext());
@@ -99,36 +106,62 @@ public class CurrentMesocycle extends AppCompatActivity  {
         }
     }
 
-    public void testEcritureJSON ( int numb_mes_act ) {
-        // Convert JsonObject to String Format
-        String fileName = "jsonfileCurrent.json";
-        JSONObject jsonMeso = new JSONObject();
+    public void writeJsonToInternalStorage(Context context, String name, String jsonContent) {
         try {
-            jsonMeso.put("id", numb_mes_act);
-            jsonMeso.put("nb_de_seance",0);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+            // Get the internal storage directory
+            File internalStorageDir = context.getFilesDir();
 
+            // Create a File object representing the destination file in internal storage
+            File file = new File(internalStorageDir, name);
 
-        String userString = jsonMeso.toString();
-        // Define the File Path and its Name
-        File file = new File(getApplicationContext().getFilesDir(), fileName);
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(file);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(userString);
+            // Write the JSON content to the file
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            bufferedWriter.write(jsonContent);
             bufferedWriter.close();
+
+            Log.i("json_write", "JSON file written to internal storage: " + file.getAbsolutePath());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public String testLectureJSON_ASSETS(Context context) {
+        // Specify the file name in the assets folder
+        String fileName = "jsonfileCurrent.json";
+        AssetManager assetManager = context.getAssets();
+
+        // Initialize variables
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+
+        try {
+            // Open the InputStream for the file
+            InputStream inputStream = assetManager.open(fileName);
+
+            // Read the InputStream into a String
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            line = bufferedReader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append("\n");
+                line = bufferedReader.readLine();
+            }
+
+            bufferedReader.close();
+            inputStreamReader.close();
+            inputStream.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+        // The response will have JSON formatted string
+        return stringBuilder.toString();
     }
 
-    public String testLectureJSON(int num_meso) {
+    public String testLectureJSON(String fileName) {
         // /data/data/fr.centralesupelec.ianotto.projetCarnetAdresses/files
-        String fileName = "jsonfileCurrent.json";
         File file = new File(getFilesDir(), fileName);
         String line = null;
         StringBuilder stringBuilder = null;
@@ -143,7 +176,8 @@ public class CurrentMesocycle extends AppCompatActivity  {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            writeJsonToInternalStorage(getApplicationContext(),fileName,testLectureJSON_ASSETS(getApplicationContext()));
+            testLectureJSON(fileName);
         }
         // This responce will have Json Format String
         return stringBuilder.toString();

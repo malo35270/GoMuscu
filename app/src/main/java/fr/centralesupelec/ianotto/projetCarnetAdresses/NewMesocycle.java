@@ -1,14 +1,12 @@
 package fr.centralesupelec.ianotto.projetCarnetAdresses;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,7 +23,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Connection;
 
 
 public class NewMesocycle extends AppCompatActivity implements View.OnClickListener{
@@ -49,13 +46,14 @@ public class NewMesocycle extends AppCompatActivity implements View.OnClickListe
         bouttonEffectif = findViewById(R.id.bouttonEffectif);
         bouttonEffectif.setOnClickListener(this);
 
-        testEcritureJSON();
+        String fileName = "jsonfileNew.json";
+        testEcritureJSON(fileName);
 
 
         LinearLayout monLayout = findViewById(R.id.layoutNewMeso);
 
         try {
-            JSONObject obj = new JSONObject(testLectureJSON());
+            JSONObject obj = new JSONObject(testLectureJSON(fileName));
             Log.i("json_test", String.valueOf(obj.getInt("nb_de_seance")));
                         //TextView nomSeance = new TextView(getApplicationContext());
             for (int i = 0; i < obj.getInt("nb_de_seance"); i++){
@@ -111,13 +109,30 @@ public class NewMesocycle extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    public void writeJsonToInternalStorage(Context context, String name, String jsonContent) {
+        try {
+            // Get the internal storage directory
+            File internalStorageDir = context.getFilesDir();
 
-    public void testEcritureJSON () {
-        // Convert JsonObject to String Format
-        String fileName = "jsonfileNew.json";
+            // Create a File object representing the destination file in internal storage
+            File file = new File(internalStorageDir, name);
+
+            // Write the JSON content to the file
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            bufferedWriter.write(jsonContent);
+            bufferedWriter.close();
+
+            Log.i("json_write", "JSON file written to internal storage: " + file.getAbsolutePath());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+
+    public void testEcritureJSON (String fileName) {
 
         try {
-            JSONObject obj = new JSONObject(testLectureJSON());
+            JSONObject obj = new JSONObject(testLectureJSON(fileName));
             Log.i("json_test-long", String.valueOf(obj.length()));
             if (obj.length() == 0 ) {
                 JSONObject jsonMeso = new JSONObject();
@@ -137,14 +152,17 @@ public class NewMesocycle extends AppCompatActivity implements View.OnClickListe
                 }
             }
         } catch (JSONException ex) {
-            throw new RuntimeException(ex);
+            String jsonContent = "{}"; // Your JSON content here
+            writeJsonToInternalStorage(getApplicationContext(),fileName, jsonContent);
+            testEcritureJSON(fileName);
         }
     }
 
-    public String testLectureJSON() {
+
+
+
+    public String testLectureJSON(String fileName) {
         // /data/data/fr.centralesupelec.ianotto.projetCarnetAdresses/files
-        String fileName = null;
-        fileName = "jsonfileNew.json";
         File file = new File(getFilesDir(), fileName);
         String line = null;
         StringBuilder stringBuilder = null;
@@ -166,29 +184,16 @@ public class NewMesocycle extends AppCompatActivity implements View.OnClickListe
     }
 
 
+
     public void changeFile () {
-        String currentFilePath = "/data/data/fr.centralesupelec.ianotto.projetCarnetAdresses/files/jsonfileNew.json";
-        File currentFile = new File(currentFilePath);
+        String currentFile = "jsonfileCurrent.json";
+        String fileName = "jsonfileNew.json";
+        String json = testLectureJSON(fileName);
+        writeJsonToInternalStorage(getApplicationContext(),currentFile,json);
 
-        // Specify the new file name and path
-        String newFilePath = "/data/data/fr.centralesupelec.ianotto.projetCarnetAdresses/files/jsonfileCurrent.json";
-        File newFile = new File(newFilePath);
-        currentFile.renameTo(newFile);
 
-        String filePath = "/data/data/fr.centralesupelec.ianotto.projetCarnetAdresses/files/jsonfileNew.json";
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(new File(filePath));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            fileWriter.append("{}");
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String jsonContent = "{}"; // Your JSON content here
+        writeJsonToInternalStorage(getApplicationContext(),fileName, jsonContent);
     }
 
     @Override

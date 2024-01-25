@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="109dp">
+    tools:layout_editor_absoluteY="109dp"
+    >
 
 
     <TextView
@@ -16,20 +17,20 @@
         android:layout_marginTop="20dp"
         android:text="Bienvenue Malo !"
         android:textSize="32dp"
+        android:textColor = "?android:textColorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center_horizontal"
-        android:textColor="#000000"
         app:layout_constraintVertical_bias="0.15" />
 
     <Button
         android:id="@+id/boutonDemarrerUneNouvelleSeance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_margin="20dp"
         android:height="50dp"
         android:text="Démarrer une nouvelle séance"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +43,7 @@
         android:id="@+id/MainAct_Btn_ReprendreSeance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
         android:height="50dp"
         android:text="Reprendre la séance"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -56,7 +57,7 @@
         android:id="@+id/boutonGestionnaireMesocycle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
         android:height="50dp"
         android:text="Gestionnaire des mésocycles"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,7 +70,7 @@
         android:id="@+id/boutonParametreCompte"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
         android:height="50dp"
         android:text="Paramètre du compte"
         app:layout_constraintBottom_toBottomOf="parent"

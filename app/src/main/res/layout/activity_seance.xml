@@ -19,12 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,8 +78,7 @@
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/button_white"
-                app:backgroundTint="@android:color/white"
+                android:backgroundTint="@color/light_gray"
                 android:textColor="@android:color/black"/>
 
             <Button
@@ -94,11 +87,9 @@
                 android:id="@+id/old_rep"
                 android:text="1"
                 android:minWidth="50dp"
-
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/button_white"
-                app:backgroundTint="@android:color/white"
+                android:backgroundTint="@color/light_gray"
                 android:textColor="@android:color/black"/>
 
             <Button
@@ -107,11 +98,9 @@
                 android:id="@+id/old_kg"
                 android:text="1"
                 android:minWidth="50dp"
-
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/button_white"
-                app:backgroundTint="@android:color/white"
+                android:backgroundTint="@color/light_gray"
                 android:textColor="@android:color/black"/>
 
 
@@ -132,8 +121,6 @@
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/button_white"
-                app:backgroundTint="@android:color/darker_gray"
                 android:textColor="@android:color/black"/>
 
             <Button
@@ -145,8 +132,6 @@
 
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/rounded_button_white"
-                app:backgroundTint="@android:color/darker_gray"
                 android:textColor="@android:color/black"/>
 
             <Button
@@ -155,11 +140,8 @@
                 android:id="@+id/plus3"
                 android:text="+"
                 android:minWidth="50dp"
-
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/rounded_button_white"
-                app:backgroundTint="@android:color/darker_gray"
                 android:textColor="@android:color/black"/>
 
 
@@ -180,8 +162,7 @@
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/button_white"
-                app:backgroundTint="@android:color/darker_gray"
+                android:backgroundTint="@color/dark_gray"
                 android:textColor="@android:color/white"/>
 
             <Button
@@ -190,11 +171,9 @@
                 android:id="@+id/rep"
                 android:text="1"
                 android:minWidth="50dp"
-
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/button_white"
-                app:backgroundTint="@android:color/darker_gray"
+                android:backgroundTint="@color/dark_gray"
                 android:textColor="@android:color/white"/>
 
             <Button
@@ -203,15 +182,14 @@
                 android:id="@+id/kg"
                 android:text="1"
                 android:minWidth="50dp"
-
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/button_white"
-                app:backgroundTint="@android:color/darker_gray"
+                android:backgroundTint="@color/dark_gray"
                 android:textColor="@android:color/white"/>
 
 
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -228,8 +206,6 @@
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/button_white"
-                app:backgroundTint="@android:color/darker_gray"
                 android:textColor="@android:color/black"/>
 
             <Button
@@ -238,11 +214,8 @@
                 android:id="@+id/minus2"
                 android:text="-"
                 android:minWidth="50dp"
-
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/button_white"
-                app:backgroundTint="@android:color/darker_gray"
                 android:textColor="@android:color/black"/>
 
             <Button
@@ -251,11 +224,8 @@
                 android:id="@+id/minus3"
                 android:text="-"
                 android:minWidth="50dp"
-
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/button_white"
-                app:backgroundTint="@android:color/darker_gray"
                 android:textColor="@android:color/black"/>
 
 
@@ -266,6 +236,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
+            android:background="@drawable/rectangle"
+            android:elevation="5dp"
             android:gravity="center">
 
 
@@ -273,48 +245,65 @@
                 android:id="@id/start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:text="START"
                 android:layout_marginHorizontal="20dp"
-                />
+                tools:ignore="HardcodedText" />
 
-            <EditText
-                android:id="@+id/minutes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="0dp"
-                android:text="00"
-                android:layout_gravity="center"
-                android:textSize="34sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.505"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/grid"
-                android:inputType="number"
-                android:maxLength="2"
-                />
-            <TextView
-                android:id="@+id/point"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="0dp"
-                android:text=":"
-                android:layout_gravity="center"
-                android:textSize="34sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
-            <EditText
-                android:id="@+id/seconds"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="0dp"
-                android:text="53"
-                android:layout_gravity="center"
-                android:textSize="34sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.505"
-                android:inputType="number"
-                android:maxLength="2"
-                />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    app:cardCornerRadius="8dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="5dp">
+
+                        <EditText
+                            android:id="@+id/minutes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="0dp"
+                            android:text="00"
+                            android:layout_gravity="center"
+                            android:textSize="34sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.505"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/grid"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            />
+                        <TextView
+                            android:id="@+id/point"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="0dp"
+                            android:text=":"
+                            android:layout_gravity="center"
+                            android:textSize="34sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            />
+                        <EditText
+                            android:id="@+id/seconds"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="0dp"
+                            android:text="53"
+                            android:layout_gravity="center"
+                            android:textSize="34sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.505"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            />
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
 
             <Button
                 android:id="@id/stop"
@@ -322,6 +311,7 @@
                 android:layout_height="wrap_content"
                 android:text="STOP"
                 android:layout_marginHorizontal="20dp"
+                android:layout_margin="20dp"
                 />
 
 

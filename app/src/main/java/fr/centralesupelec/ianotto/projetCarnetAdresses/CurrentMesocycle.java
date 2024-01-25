@@ -1,7 +1,12 @@
 package fr.centralesupelec.ianotto.projetCarnetAdresses;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.widget.Button;
+import android.util.Log;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +14,7 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,15 +24,20 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class CurrentMesocycle extends AppCompatActivity  {
 
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_currentmeso);
+
+        dbHelper = new DatabaseHelper(getApplicationContext());
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
@@ -41,58 +52,116 @@ public class CurrentMesocycle extends AppCompatActivity  {
         // Pour que la flèche s'affiche dans la barre de titre de l'activité
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // On affiche le contenu dans le fichier  dans le ListView
 
+        LinearLayout monLayout = findViewById(R.id.layoutCurrentMeso);
 
-        // On gère l'évènement "sélection d'un item" dans le ListView :
-        //  - la méthode setOnItemClickListener permet de gérer l'évènement
-        //    "click sur un item"
-        //  - Dans la méthode onItemClick, on récupére l'objet contact correspondant à l'item sur
-        //    lequel l'utilisateur a cliqué. On utilise pour cela la méthode "getItemAtPosition"
-        // A COMPLETER
-
-        // On gère l'évènement "click" sur le bouton supprimer :
-        //  - on appelle la méthode supprimerContact définie dans la
-        //    classe ContactOperation
-        //  - on réaffiche la nouvelle liste de contacts
-        // A COMPLETER
-        testLectureJSON();
-
-        testEcritureJSON();
-    }
-
-    public void testEcritureJSON() {
-        // Convert JsonObject to String Format
-        String fileName = "jsonformatter1.json";
-        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("Name", "CHAUVEL");
-            jsonObject.put("Enroll_No", "1234");
-            jsonObject.put("Mobile", "0455443344");
-            jsonObject.put("Address", "Metz");
-            jsonObject.put("Branch", "Computer Science");
+            String file = "jsonfileCurrent.json";
+            JSONObject obj = new JSONObject(testLectureJSON(file));
+            Log.i("json", String.valueOf(obj.getInt("nb_de_seance")));
+            for (int i = 1; i < obj.getInt("nb_de_seance")+1; i++){
+                LinearLayout SeanceLayout = new LinearLayout(getApplicationContext());
+                SeanceLayout.setOrientation(LinearLayout.HORIZONTAL);
+                LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        1.0f
+                );
+                SeanceLayout.setLayoutParams(param);
+                monLayout.addView(SeanceLayout);
+
+                TextView nomSeance = new TextView(getApplicationContext());
+                JSONArray jArray = obj.getJSONArray("seance"+i);
+                JSONObject nomSeanceJSON = jArray.getJSONObject(0);
+                nomSeance.setText(nomSeanceJSON.getString("nom"));
+                LinearLayout.LayoutParams textParam = new LinearLayout.LayoutParams
+                        (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
+
+                nomSeance.setLayoutParams(textParam);
+                SeanceLayout.addView(nomSeance);
+
+                LinearLayout ExoLayout = new LinearLayout(getApplicationContext());
+                ExoLayout.setOrientation(LinearLayout.VERTICAL);
+                LinearLayout.LayoutParams paramExo = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        1.0f
+                );
+                ExoLayout.setLayoutParams(paramExo);
+                SeanceLayout.addView(ExoLayout);
+                for (int j=1;j<jArray.length();j++){
+                    TextView nomExo = new TextView(getApplicationContext());
+                    JSONObject oneObject = jArray.getJSONObject(j);
+                    //nomSeance.setText(oneObject.getString("nom"));
+                    Log.i("json1", String.valueOf(oneObject));
+                    nomExo.setText(oneObject.getString("exo"+i+"."+j));
+
+                    nomExo.setLayoutParams(textParam);
+                    ExoLayout.addView(nomExo);
+                }
+
+            }
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+    }
 
-
-        String userString = jsonObject.toString();
-        // Define the File Path and its Name
-        File file = new File(getApplicationContext().getFilesDir(), fileName);
-        FileWriter fileWriter = null;
+    public void writeJsonToInternalStorage(Context context, String name, String jsonContent) {
         try {
-            fileWriter = new FileWriter(file);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(userString);
+            // Get the internal storage directory
+            File internalStorageDir = context.getFilesDir();
+
+            // Create a File object representing the destination file in internal storage
+            File file = new File(internalStorageDir, name);
+
+            // Write the JSON content to the file
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            bufferedWriter.write(jsonContent);
             bufferedWriter.close();
+
+            Log.i("json_write", "JSON file written to internal storage: " + file.getAbsolutePath());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public String testLectureJSON_ASSETS(Context context) {
+        // Specify the file name in the assets folder
+        String fileName = "jsonfileCurrent.json";
+        AssetManager assetManager = context.getAssets();
+
+        // Initialize variables
+        StringBuilder stringBuilder = new StringBuilder();
+        String line;
+
+        try {
+            // Open the InputStream for the file
+            InputStream inputStream = assetManager.open(fileName);
+
+            // Read the InputStream into a String
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            line = bufferedReader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append("\n");
+                line = bufferedReader.readLine();
+            }
+
+            bufferedReader.close();
+            inputStreamReader.close();
+            inputStream.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+        // The response will have JSON formatted string
+        return stringBuilder.toString();
     }
-    public void testLectureJSON() {
+
+    public String testLectureJSON(String fileName) {
         // /data/data/fr.centralesupelec.ianotto.projetCarnetAdresses/files
-        String fileName = "jsonformatter.json";
         File file = new File(getFilesDir(), fileName);
         String line = null;
         StringBuilder stringBuilder = null;
@@ -107,21 +176,13 @@ public class CurrentMesocycle extends AppCompatActivity  {
             }
             bufferedReader.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            writeJsonToInternalStorage(getApplicationContext(),fileName,testLectureJSON_ASSETS(getApplicationContext()));
+            testLectureJSON(fileName);
         }
         // This responce will have Json Format String
-        String responce = stringBuilder.toString();
+        return stringBuilder.toString();
     }
 
-    /*
-     * Permet d'afficher dans le ListView les contacts contenus dans la base de données.
-     * On utilise un listView du type "simple_list_item_checked"
-     */
-
-
-    // Méthode qui permet permet de revenir à l'activité précédente
-    // lorsqu'on clique sur la flèche qui se trouve dans la barre de titre
-    // de l'activité
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

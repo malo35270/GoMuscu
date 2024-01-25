@@ -1,11 +1,23 @@
 package fr.centralesupelec.ianotto.projetCarnetAdresses;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class GestionMesocycle extends AppCompatActivity implements View.OnClickListener {
     private Button boutonCurrentMeso;

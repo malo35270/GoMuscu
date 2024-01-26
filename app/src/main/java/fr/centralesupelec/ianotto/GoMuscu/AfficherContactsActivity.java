@@ -1,11 +1,11 @@
-package fr.centralesupelec.ianotto.projetCarnetAdresses;
+package fr.centralesupelec.ianotto.GoMuscu;
 
 import android.os.Bundle;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import fr.centralesupelec.ianotto.projetCarnetAdresses.R;
+import fr.centralesupelec.ianotto.GoMuscu.R;
 
 public class AfficherContactsActivity extends AppCompatActivity {
     private ContactOperations contactOperations;

@@ -1,4 +1,4 @@
-package fr.centralesupelec.ianotto.projetCarnetAdresses;
+package fr.centralesupelec.ianotto.GoMuscu;
 
 import java.io.Serializable;
 

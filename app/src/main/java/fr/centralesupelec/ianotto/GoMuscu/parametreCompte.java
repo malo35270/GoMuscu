@@ -1,4 +1,4 @@
-package fr.centralesupelec.ianotto.projetCarnetAdresses;
+package fr.centralesupelec.ianotto.GoMuscu;
 
 public class parametreCompte {
 }

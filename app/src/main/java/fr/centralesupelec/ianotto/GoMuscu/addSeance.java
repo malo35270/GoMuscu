@@ -1,4 +1,4 @@
-package fr.centralesupelec.ianotto.projetCarnetAdresses;
+package fr.centralesupelec.ianotto.GoMuscu;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -90,7 +90,7 @@ public class addSeance extends AppCompatActivity {
     }
 
     public String testLectureJSON() {
-        // /data/data/fr.centralesupelec.ianotto.projetCarnetAdresses/files
+        // /data/data/fr.centralesupelec.ianotto.GoMuscu/files
         String fileName = "jsonfileNew.json";
 
         File file = new File(getFilesDir(), fileName);

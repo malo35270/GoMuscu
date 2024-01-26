@@ -1,7 +1,6 @@
-package fr.centralesupelec.ianotto.projetCarnetAdresses;
+package fr.centralesupelec.ianotto.GoMuscu;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -161,7 +160,7 @@ public class CurrentMesocycle extends AppCompatActivity  {
     }
 
     public String testLectureJSON(String fileName) {
-        // /data/data/fr.centralesupelec.ianotto.projetCarnetAdresses/files
+        // /data/data/fr.centralesupelec.ianotto.GoMuscu/files
         File file = new File(getFilesDir(), fileName);
         String line = null;
         StringBuilder stringBuilder = null;

@@ -6,7 +6,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId 'fr.centralesupelec.ianotto.projetCarnetAdresses'
+        applicationId 'fr.centralesupelec.ianotto.GoMuscu'
         minSdk 21
         targetSdk 34
         versionCode 1
@@ -25,7 +25,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    namespace 'fr.centralesupelec.ianotto.projetCarnetAdresses'
+    namespace 'fr.centralesupelec.ianotto.GoMuscu'
 }
 
 dependencies {

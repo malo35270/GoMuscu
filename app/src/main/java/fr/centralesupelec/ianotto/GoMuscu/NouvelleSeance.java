@@ -1,12 +1,9 @@
-package fr.centralesupelec.ianotto.projetCarnetAdresses;
+package fr.centralesupelec.ianotto.GoMuscu;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 public class NouvelleSeance extends AppCompatActivity implements View.OnClickListener {
@@ -23,16 +20,16 @@ public class NouvelleSeance extends AppCompatActivity implements View.OnClickLis
 
         // On récupère une référence sur le bouton Effacer
         boutonSeanceA = findViewById(R.id.boutonSeanceA);
-        boutonSeanceA.setText("toto1");
+        boutonSeanceA.setText("Pecs / Biceps");
 
         boutonSeanceB = findViewById(R.id.boutonSeanceB);
-        boutonSeanceB.setText("toto2");
+        boutonSeanceB.setText("Dos / Triceps");
 
         boutonSeanceC = findViewById(R.id.boutonSeanceC);
-        boutonSeanceC.setText("toto3");
+        boutonSeanceC.setText("Jambes / Épaules");
         // Pour que la flèche s'affiche dans la barre de titre de l'activité
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setTitle("Choisir la Séance");
         // On gère l'évènement "click" sur les boutons
         boutonSeanceA.setOnClickListener(this);
         boutonSeanceB.setOnClickListener(this);
@@ -52,20 +49,11 @@ public class NouvelleSeance extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         Intent i = new Intent();
-        if (v == boutonSeanceA) {
-            i.setClass(getApplicationContext(), Seance.class);
-            i.putExtra("seance", "toto1");
-            startActivity(i);
-        }
-        if (v == boutonSeanceB) {
-            i.setClass(getApplicationContext(), Seance.class);
-            i.putExtra("seance", "toto2");
-            startActivity(i);
-        }
-        if (v == boutonSeanceC) {
-            i.setClass(getApplicationContext(), Seance.class);
-            i.putExtra("seance", "toto3");
-            startActivity(i);
-        }
+        Button transform = (Button)v;
+
+        //start activity and passes the name of the activity as an id
+        i.setClass(getApplicationContext(), Seance.class);
+        i.putExtra("seance", transform.getText().toString());
+        startActivity(i);
     }
 }

@@ -1,17 +1,13 @@
-package fr.centralesupelec.ianotto.projetCarnetAdresses;
+package fr.centralesupelec.ianotto.GoMuscu;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.sql.Connection;
-
-import fr.centralesupelec.ianotto.projetCarnetAdresses.R;
+import fr.centralesupelec.ianotto.GoMuscu.R;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button boutonNouvelleSeance;

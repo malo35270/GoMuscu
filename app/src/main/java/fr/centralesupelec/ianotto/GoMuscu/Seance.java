@@ -1,25 +1,22 @@
-package fr.centralesupelec.ianotto.projetCarnetAdresses;
-
-import static android.text.TextUtils.substring;
+package fr.centralesupelec.ianotto.GoMuscu;
 
 import android.content.Context;
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Timer;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Seance extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,14 +24,19 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
     private MediaPlayer mediaPlayer;
 
     //VIEW
-    private TextView name, point;
+    private TextView name;
     private ListView list;
     private Button ser, rep, kg, plus1, plus2, plus3, old_rep, old_kg, old_ser, minus1, minus2, minus3, start, stop;
     private EditText minutes,seconds;
 
     String seance, times, timem;
-    private boolean isRunning = false;
     private long timeRemainingInMillis;
+
+    //LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
+    private ArrayList<String> listItems;
+
+    //DEFINING A STRING ADAPTER WHICH WILL HANDLE THE DATA OF THE LISTVIEW
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +47,16 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         seance = getIntent().getExtras().getString("seance", "default_seance");
+        //pour que le nom de la séance soit dans l'actionBar
+        getSupportActionBar().setTitle(seance);
 
-        name = findViewById(R.id.textView3);
-        name.setText(seance);
+
+
+        //TAKES CARE OF THE LISTVIEW FOR EXERCICES
+        listItems = new ArrayList<String>(Arrays.asList("Chess Press", "Écarté haltère", "Traction supination", "Curl marteaux"));
+        list = findViewById(R.id.listExo);
+        adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
+        list.setAdapter(adapter);
 
         //assess id to object
         old_kg = findViewById(R.id.old_kg);
@@ -95,7 +104,6 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
         seconds = findViewById(R.id.seconds);
         seconds.setCursorVisible(false);
         seconds.setOnClickListener(this);
-        point = findViewById(R.id.point);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
         stop.setEnabled(false);

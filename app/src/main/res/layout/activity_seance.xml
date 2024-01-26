@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,25 +7,23 @@
     android:orientation="vertical"
     tools:context=".Seance">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
+    <ListView
+        android:id="@+id/listExo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Nom de la séance"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:drawSelectorOnTop="false"
+        />
 
 
     <LinearLayout
+        android:id="@+id/grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:id="@+id/grid">
+        android:layout_alignParentBottom="true"
+
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/old_ser"
-                android:text="1"
+                android:text="3"
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
@@ -85,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/old_rep"
-                android:text="1"
+                android:text="10"
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
@@ -96,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/old_kg"
-                android:text="1"
+                android:text="50"
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
@@ -121,7 +119,8 @@
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:textColor="@android:color/black"/>
+                android:backgroundTint="@color/dark_gray"
+                android:textColor="@android:color/white"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -132,7 +131,8 @@
 
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:textColor="@android:color/black"/>
+                android:backgroundTint="@color/dark_gray"
+                android:textColor="@android:color/white"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -142,7 +142,8 @@
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:textColor="@android:color/black"/>
+                android:backgroundTint="@color/dark_gray"
+                android:textColor="@android:color/white"/>
 
 
         </LinearLayout>
@@ -158,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ser"
-                android:text="1"
+                android:text="4"
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
@@ -169,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/rep"
-                android:text="1"
+                android:text="12"
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
@@ -180,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/kg"
-                android:text="1"
+                android:text="55"
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
@@ -206,7 +207,8 @@
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:textColor="@android:color/black"/>
+                android:backgroundTint="@color/dark_gray"
+                android:textColor="@android:color/white"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -216,7 +218,8 @@
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:textColor="@android:color/black"/>
+                android:backgroundTint="@color/dark_gray"
+                android:textColor="@android:color/white"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -226,7 +229,8 @@
                 android:minWidth="50dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
-                android:textColor="@android:color/black"/>
+                android:backgroundTint="@color/dark_gray"
+                android:textColor="@android:color/white"/>
 
 
         </LinearLayout>
@@ -274,6 +278,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/grid"
                             android:inputType="number"
+                            android:textColor="@color/black"
                             android:maxLength="2"
                             />
                         <TextView
@@ -284,6 +289,7 @@
                             android:text=":"
                             android:layout_gravity="center"
                             android:textSize="34sp"
+                            android:textColor="@color/black"
                             app:layout_constraintEnd_toEndOf="parent"
                             />
                         <EditText
@@ -291,11 +297,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="0dp"
-                            android:text="53"
+                            android:text="30"
                             android:layout_gravity="center"
                             android:textSize="34sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.505"
+                            android:textColor="@color/black"
                             android:inputType="number"
                             android:maxLength="2"
                             />
@@ -314,9 +321,85 @@
                 android:layout_margin="20dp"
                 />
 
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/musicName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Around the world - Daft Punk"
+            android:layout_margin="10dp"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:elevation="5dp"
+            android:gravity="center">
+
+            <ProgressBar
+                android:id="@+id/determinateBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:progress="25"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/start_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@android:drawable/radiobutton_on_background"
+                tools:ignore="HardcodedText" />
+
+            <ImageButton
+                android:id="@+id/prev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@android:drawable/ic_media_previous"
+                tools:ignore="HardcodedText" />
+
+            <ImageButton
+                android:id="@+id/pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@android:drawable/ic_media_pause"
+                tools:ignore="HardcodedText" />
+
+            <ImageButton
+                android:id="@+id/next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@android:drawable/ic_media_next"
+                tools:ignore="HardcodedText" />
+
+            <ImageButton
+                android:id="@+id/stop_music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:src="@android:drawable/radiobutton_off_background"
+                tools:ignore="HardcodedText" />
+
+
+
+
 
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

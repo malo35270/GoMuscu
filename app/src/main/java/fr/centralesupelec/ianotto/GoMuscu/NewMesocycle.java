@@ -1,4 +1,4 @@
-package fr.centralesupelec.ianotto.projetCarnetAdresses;
+package fr.centralesupelec.ianotto.GoMuscu;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -162,7 +162,7 @@ public class NewMesocycle extends AppCompatActivity implements View.OnClickListe
 
 
     public String testLectureJSON(String fileName) {
-        // /data/data/fr.centralesupelec.ianotto.projetCarnetAdresses/files
+        // /data/data/fr.centralesupelec.ianotto.GoMuscu/files
         File file = new File(getFilesDir(), fileName);
         String line = null;
         StringBuilder stringBuilder = null;

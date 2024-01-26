@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import fr.centralesupelec.ianotto.GoMuscu.R;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button boutonNouvelleSeance;
@@ -15,7 +16,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button boutonGestionnaireMesocycle;
     private Button boutonParametreCompte;
 
-    public static int num_meso=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

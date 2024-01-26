@@ -1,7 +1,9 @@
 package fr.centralesupelec.ianotto.GoMuscu;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button boutonReprendreSeance;
     private Button boutonGestionnaireMesocycle;
     private Button boutonParametreCompte;
+    private DatabaseHelper dbHelper;
+    private SQLiteDatabase database;
 
 
     @Override
@@ -33,6 +37,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         boutonParametreCompte = findViewById(R.id.boutonParametreCompte);
         boutonParametreCompte.setOnClickListener(this);
+
+
+        dbHelper = new DatabaseHelper(this);
+
+        if (!dbHelper.baseDeDonneesExiste(this)) {
+            // Si la base de données n'existe pas, getWritableDatabase() créera la base de données et appelle automatiquement onCreate().
+            database = dbHelper.getWritableDatabase();
+            Log.i("donnees", "Base de données créée avec succès");
+        } else {
+            // Si la base de données existe déjà, getWritableDatabase() l'ouvrira.
+            database = dbHelper.getWritableDatabase();
+            Log.i("donnees", "Base de données existante ouverte avec succès");
+        }
+
     }
 
     @Override

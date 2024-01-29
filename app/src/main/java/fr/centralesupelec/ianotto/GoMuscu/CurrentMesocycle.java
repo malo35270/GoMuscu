@@ -45,7 +45,7 @@ public class CurrentMesocycle extends AppCompatActivity  {
         dbHelper.open();
 
         // Récupérer le volume à partir de la base de données
-        Cursor cursor = dbHelper.test();
+        Cursor cursor = dbHelper.getVolume();
         Log.i("Cursor_Volume", String.valueOf(cursor));
 
         GraphView graph = (GraphView) findViewById(R.id.graph);

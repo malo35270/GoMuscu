@@ -23,10 +23,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.i("Data", "database creat");
     }
 
-    public Cursor getVolume() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.rawQuery("SELECT NumSeance, NumCycle, SUM(NbSerie * NbReps * NbPoids) AS somme_produit FROM MaTable GROUP BY NumSeance, NumCycle ORDER BY NumSeance, NumCycle", null);
-    }
 
     public void ajoutData(String name, int series,int reps, double poids, int numeroseance, int numerocycle){
         ContentValues values = new ContentValues();
@@ -53,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return getWritableDatabase();
     }
 
-    public Cursor test() {
+    public Cursor getVolume() {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT *, SUM(product) AS somme_produit, COUNT(*) as nombre_occurrences\n" +
                 "FROM (\n" +

@@ -50,6 +50,8 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
     private TextView musicTitle;
     private SeekBar musicBar;
     private Context context;
+
+    private Boolean musicPlaying;
     private ImageButton next, prev, pause;
 
 
@@ -83,6 +85,7 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seance);
 
+        musicPlaying = false;
         // Pour que la flèche s'affiche dans la barre de titre de l'activité
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -193,7 +196,6 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
                 context.getPackageName());
         if(sound_id != 0) {
             mediaPlayer = MediaPlayer.create(context, sound_id);
-            mediaPlayer.start();
         }
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         //Progress bar
@@ -287,25 +289,49 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
         if (v == minus3) {kg.setText(String.valueOf(Integer.valueOf(kg.getText().toString()) - 1));}
 
         if (v == prev) {
-            musicNum = 3;
+            musicNum = ((musicNum + 1)%5);
+            if (musicNum==0){musicNum=1;}
             String filename = "android.resource://" + this.getPackageName() + "/raw/" + musicList.get(musicNum);
             try {
-                mediaPlayer.setDataSource(filename);
+                musicTitle.setText(musicList.get(musicNum));
+                musicBar.setProgress(0);
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(this, Uri.parse(filename));
+                mediaPlayer.prepare();
+                mediaPlayer.start();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-        if (v == next) {        if (v == prev) {
+        if (v == next) {
             musicNum = ((musicNum - 1)%5);
             if (musicNum==0){musicNum=4;}
             String filename = "android.resource://" + this.getPackageName() + "/raw/" + musicList.get(musicNum);
             try {
-                mediaPlayer.setDataSource(filename);
+                musicTitle.setText(musicList.get(musicNum));
+                musicBar.setProgress(0);
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                mediaPlayer.setDataSource(this, Uri.parse(filename));
+                mediaPlayer.prepare();
+                mediaPlayer.start();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }}
-        if (v == pause) {if (mediaPlayer.isPlaying()) {mediaPlayer.stop();} else {mediaPlayer.start();}}
+        }
+        if (v == pause) {
+            if (musicPlaying) {
+                mediaPlayer.pause();
+                musicPlaying=false;
+                ((ImageButton) v).setImageResource(R.drawable.play);
+            }
+            else {
+                mediaPlayer.start();
+                musicPlaying=true;
+                ((ImageButton) v).setImageResource(R.drawable.pause);
+            }
+        }
 
         //timer
         if (v == start) {

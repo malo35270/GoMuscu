@@ -33,6 +33,7 @@ public class CurrentMesocycle extends AppCompatActivity  {
 
     private DatabaseHelper dbHelper;
     private SQLiteDatabase database;
+    JSONHandler jsonHandler = new JSONHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +108,7 @@ public class CurrentMesocycle extends AppCompatActivity  {
 
         try {
             String file = "jsonfileCurrent.json";
-            JSONObject obj = new JSONObject(testLectureJSON(file));
+            JSONObject obj = new JSONObject(jsonHandler.LectureJSON(this,file));
             Log.i("json", String.valueOf(obj.getInt("nb_de_seance")));
             for (int i = 1; i < obj.getInt("nb_de_seance")+1; i++){
                 LinearLayout SeanceLayout = new LinearLayout(getApplicationContext());
@@ -142,10 +143,8 @@ public class CurrentMesocycle extends AppCompatActivity  {
                 for (int j=1;j<jArray.length();j++){
                     TextView nomExo = new TextView(getApplicationContext());
                     JSONObject oneObject = jArray.getJSONObject(j);
-                    //nomSeance.setText(oneObject.getString("nom"));
                     Log.i("json1", String.valueOf(oneObject));
                     nomExo.setText(oneObject.getString("exo"+i+"."+j));
-
                     nomExo.setLayoutParams(textParam);
                     ExoLayout.addView(nomExo);
                 }
@@ -156,82 +155,7 @@ public class CurrentMesocycle extends AppCompatActivity  {
         }
     }
 
-    public void writeJsonToInternalStorage(Context context, String name, String jsonContent) {
-        try {
-            // Get the internal storage directory
-            File internalStorageDir = context.getFilesDir();
 
-            // Create a File object representing the destination file in internal storage
-            File file = new File(internalStorageDir, name);
-
-            // Write the JSON content to the file
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-            bufferedWriter.write(jsonContent);
-            bufferedWriter.close();
-
-            Log.i("json_write", "JSON file written to internal storage: " + file.getAbsolutePath());
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    public String testLectureJSON_ASSETS(Context context) {
-        // Specify the file name in the assets folder
-        String fileName = "jsonfileCurrent.json";
-        AssetManager assetManager = context.getAssets();
-
-        // Initialize variables
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-
-        try {
-            // Open the InputStream for the file
-            InputStream inputStream = assetManager.open(fileName);
-
-            // Read the InputStream into a String
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-            line = bufferedReader.readLine();
-            while (line != null) {
-                stringBuilder.append(line).append("\n");
-                line = bufferedReader.readLine();
-            }
-
-            bufferedReader.close();
-            inputStreamReader.close();
-            inputStream.close();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // The response will have JSON formatted string
-        return stringBuilder.toString();
-    }
-
-    public String testLectureJSON(String fileName) {
-        // /data/data/fr.centralesupelec.ianotto.GoMuscu/files
-        File file = new File(getFilesDir(), fileName);
-        String line = null;
-        StringBuilder stringBuilder = null;
-        try {
-            FileReader fileReader = new FileReader(file);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            stringBuilder = new StringBuilder();
-            line = bufferedReader.readLine();
-            while (line != null){
-                stringBuilder.append(line).append("\n");
-                line = bufferedReader.readLine();
-            }
-            bufferedReader.close();
-        } catch (IOException e) {
-            writeJsonToInternalStorage(getApplicationContext(),fileName,testLectureJSON_ASSETS(getApplicationContext()));
-            testLectureJSON(fileName);
-        }
-        // This responce will have Json Format String
-        return stringBuilder.toString();
-    }
 
     @Override
     public boolean onSupportNavigateUp() {

@@ -97,7 +97,7 @@ public class JSONHandler {
         return stringBuilder.toString();
     }
 
-    public String getJsonSeance(JSONObject object, int i, Context context) {
+    public String getJsonSeance(JSONObject object, int i) {
         JSONArray jArray = null;
         String name;
         try {
@@ -110,7 +110,7 @@ public class JSONHandler {
         return name;
     }
 
-    public String getJsonExo(JSONArray jArray,int i, int j, Context context){
+    public String getJsonExo(JSONArray jArray,int i, int j){
         JSONObject oneObject = null;
         String name;
         try {

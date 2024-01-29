@@ -18,17 +18,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Créer la structure de la base de données (tables, colonnes, etc.)
-        String createTableQuery = "CREATE TABLE MaTable (id INTEGER PRIMARY KEY, nom TEXT, NumSeance INTEGER, NumCycle INTEGER, NbSerie INTEGER, NbReps INTEGER, NbPoids INTEGER);";
+        String createTableQuery = "CREATE TABLE MaTable (id INTEGER PRIMARY KEY, nom TEXT, NumSeance INTEGER, NumCycle INTEGER, NbSerie INTEGER, NbReps INTEGER, NbPoids FLOAT);";
         db.execSQL(createTableQuery);
         Log.i("Data", "database creat");
     }
 
     public Cursor getVolume() {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.rawQuery("SELECT NumSeance, NumCycle, SUM(NbSerie * NbReps * NbPoids) AS somme_produit FROM MaTable GROUP BY NumSeance, NumCycle ORDER BY NumCycle", null);
+        return db.rawQuery("SELECT NumSeance, NumCycle, SUM(NbSerie * NbReps * NbPoids) AS somme_produit FROM MaTable GROUP BY NumSeance, NumCycle ORDER BY NumSeance, NumCycle", null);
     }
 
-    public void ajoutData(String name, int series,int reps, int poids, int numeroseance, int numerocycle){
+    public void ajoutData(String name, int series,int reps, double poids, int numeroseance, int numerocycle){
         ContentValues values = new ContentValues();
         SQLiteDatabase db = this.getWritableDatabase();
         values.put("nom", name); // Utiliser "nom" ici, correspondant à la colonne "nom" dans la table
@@ -51,5 +51,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public SQLiteDatabase open() {
         return getWritableDatabase();
+    }
+
+    public Cursor test() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT *, SUM(product) AS somme_produit, COUNT(*) as nombre_occurrences\n" +
+                "FROM (\n" +
+                "    SELECT *, NbSerie * NbReps * NbPoids AS product\n" +
+                "    FROM MaTable\n" +
+                ") AS subquery\n" +
+                "GROUP BY NumSeance, NumCycle\n"+
+                "HAVING COUNT(*) > 1;", null);
     }
 }

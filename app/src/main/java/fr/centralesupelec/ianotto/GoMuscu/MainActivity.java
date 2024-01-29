@@ -51,6 +51,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.i("donnees", "Base de données existante ouverte avec succès");
         }
 
+        dbHelper.ajoutData("Chess Press",	4	,8,49,1,1);
+//        dbHelper.ajoutData("Ecarte haltère",	4,7,	41.6,1,1);
+//        dbHelper.ajoutData("Traction Supination",	4,7,	85,1,1);
+//        dbHelper.ajoutData("Curl Marteaux",	4,8,	12,1,1);
+//
+//        dbHelper.ajoutData("Chess Press",	4	,8,49,1,2);
+//        dbHelper.ajoutData("Ecarte haltère",	4,6,	12,1,2);
+//        dbHelper.ajoutData("Traction Supination",	4,7,	85,1,2);
+//        dbHelper.ajoutData("Curl Marteaux",	4,12,10,1,2);
+//
+//        dbHelper.ajoutData("Traction Pronation",	4	,7,85,2,1);
+//        dbHelper.ajoutData("Rowing planche",	4,8,	16,2,1);
+//        dbHelper.ajoutData("dips machine",	4,10,	64,2,1);
+//        dbHelper.ajoutData("extension haltères",	4,8,15,2,1);
     }
 
     @Override

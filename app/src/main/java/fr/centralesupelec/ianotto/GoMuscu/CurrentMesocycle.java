@@ -45,17 +45,46 @@ public class CurrentMesocycle extends AppCompatActivity  {
         dbHelper.open();
 
         // Récupérer le volume à partir de la base de données
-        Cursor cursor = dbHelper.getVolume();
+        Cursor cursor = dbHelper.test();
+        Log.i("Cursor_Volume", String.valueOf(cursor));
+
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+
+        LineGraphSeries<DataPoint> series1 = new LineGraphSeries<>();
+        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>();
+        LineGraphSeries<DataPoint> series3 = new LineGraphSeries<>();
+
+
 
         // Vérifier si le curseur contient des données
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 // Récupérer les données de chaque colonne
-                int volume = cursor.getInt(cursor.getColumnIndex("somme_produit"));
-                int numeroCycle = cursor.getInt(cursor.getColumnIndex("NumCycle"));
+//                int volume = cursor.getInt(cursor.getColumnIndex("somme_produit"));
+//                int numeroCycle = cursor.getInt(cursor.getColumnIndex("NumCycle"));
+//                int numeroseance = cursor.getInt(cursor.getColumnIndex("NumSeance"));
 
+
+                double volume = cursor.getInt(cursor.getColumnIndex("somme_produit"));
+                int numeroCycle = cursor.getInt(cursor.getColumnIndex("NumCycle"));
+                int numeroseance = cursor.getInt(cursor.getColumnIndex("NumSeance"));
+                int NbReps = cursor.getInt(cursor.getColumnIndex("NbReps"));
+                int NbSerie = cursor.getInt(cursor.getColumnIndex("NbSerie"));
+                int NbPoids = cursor.getInt(cursor.getColumnIndex("NbPoids"));
+                String nom = cursor.getString(cursor.getColumnIndex("nom"));
+                Log.i("Donnees","Nom: " + nom + ", NumeroCycle: " + numeroCycle + ", NumeroSeance: "+numeroseance + ", Series: "+NbSerie +", NbReps: "+NbReps + ", NbPoids: "+NbPoids +", produit: "+volume);
                 // Afficher ou utiliser les données comme vous le souhaitez
-                Log.d("Donnees", "Volume: " + volume + ", NumeroCycle: " + numeroCycle);
+                //Log.d("Donnees", "Volume: " + volume + ", NumeroCycle: " + numeroCycle + ", NumeroSeance: "+numeroseance);
+                if ( numeroseance == 1){
+                    series1.appendData(new DataPoint(numeroCycle, volume), true, /* maxDataPoints */ 100);
+                }
+                if (numeroseance == 2 ){
+                    series2.appendData(new DataPoint(numeroCycle, volume), true, /* maxDataPoints */ 100);
+                }
+                if (numeroseance == 3 ){
+                    series3.appendData(new DataPoint(numeroCycle, volume), true, /* maxDataPoints */ 100);
+                }
+
 
                 // Vous pouvez également mettre à jour votre interface utilisateur ici
             } while (cursor.moveToNext());
@@ -65,15 +94,10 @@ public class CurrentMesocycle extends AppCompatActivity  {
         dbHelper.close();
 
 
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-        });
-        graph.addSeries(series);
+        graph.addSeries(series1);
+        graph.addSeries(series2);
+        graph.addSeries(series3);
+
 
         // Pour que la flèche s'affiche dans la barre de titre de l'activité
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

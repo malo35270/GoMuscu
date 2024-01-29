@@ -339,8 +339,8 @@
             android:elevation="5dp"
             android:gravity="center">
 
-            <ProgressBar
-                android:id="@+id/determinateBar"
+            <SeekBar
+                android:id="@+id/musicBar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -4,9 +4,11 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +39,7 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
 
     //DEFINING A STRING ADAPTER WHICH WILL HANDLE THE DATA OF THE LISTVIEW
     private ArrayAdapter<String> adapter;
+    private boolean isRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,15 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
         list = findViewById(R.id.listExo);
         adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            }
+
+        });
 
         //assess id to object
         old_kg = findViewById(R.id.old_kg);
@@ -111,9 +123,9 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
         seconds.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 seconds.setSelection(seconds.getText().length());
-
                 if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                     // Touche OK sélectionné.
+                    seconds.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(seconds.getWindowToken(), 0);
                     return true;
@@ -128,6 +140,7 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
 
                 if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                     // Touche OK sélectionné.
+                    minutes.clearFocus();
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(minutes.getWindowToken(), 0);
                     return true;
@@ -136,14 +149,6 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
             }
         });
     }
-
-
-    /*private void handleEnterKeyPress() {
-        EditText edit = (EditText) this.getCurrentFocus();
-        edit.setText(cleanZeros(edit.toString()));
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(edit.getWindowToken(), 0);
-    }*/
 
     // Méthode qui permet permet de revenir à l'activité précédente
     // lorsqu'on clique sur la flèche qui se trouve dans la barre de titre
@@ -168,8 +173,11 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
         //timer
         if (v == start) {
             if (timer == null) {
-                times = seconds.getText().toString();
-                timem = minutes.getText().toString();
+                if (!isRunning){
+                    times = seconds.getText().toString();
+                    timem = minutes.getText().toString();
+                    isRunning=true;
+                }
                 //creates new timer
                 timeRemainingInMillis = 60000 * Long.parseLong(minutes.getText().toString()) + 1000 * Long.parseLong(seconds.getText().toString()) + 1000;
                 timer = new CountDownTimer(timeRemainingInMillis, 1000) {
@@ -189,6 +197,7 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
                         mediaPlayer.start();
                         timer.cancel();
                         timer = null;
+                        isRunning=false;
                         minutes.setText(timem);
                         seconds.setText(times);
                     }
@@ -207,12 +216,12 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
         if (v == stop){
             start.setText("START");
             stop.setEnabled(false);
-            if (timer == null){
+            if (timer != null){
                 timer.cancel();
+                timer = null;
             }
-            timer = null;
-            seconds.setText("00");
-            minutes.setText("00");
+            minutes.setText(timem);
+            seconds.setText(times);
         }
     }
 }

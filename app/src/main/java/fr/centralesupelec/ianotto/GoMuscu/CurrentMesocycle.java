@@ -2,6 +2,8 @@ package fr.centralesupelec.ianotto.GoMuscu;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -30,6 +32,7 @@ import java.io.InputStreamReader;
 public class CurrentMesocycle extends AppCompatActivity  {
 
     private DatabaseHelper dbHelper;
+    private SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,30 @@ public class CurrentMesocycle extends AppCompatActivity  {
         setContentView(R.layout.activity_currentmeso);
 
         dbHelper = new DatabaseHelper(getApplicationContext());
+        database = dbHelper.getWritableDatabase();
+
+        dbHelper.open();
+
+        // Récupérer le volume à partir de la base de données
+        Cursor cursor = dbHelper.getVolume();
+
+        // Vérifier si le curseur contient des données
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                // Récupérer les données de chaque colonne
+                int volume = cursor.getInt(cursor.getColumnIndex("somme_produit"));
+                int numeroCycle = cursor.getInt(cursor.getColumnIndex("NumCycle"));
+
+                // Afficher ou utiliser les données comme vous le souhaitez
+                Log.d("Donnees", "Volume: " + volume + ", NumeroCycle: " + numeroCycle);
+
+                // Vous pouvez également mettre à jour votre interface utilisateur ici
+            } while (cursor.moveToNext());
+        }
+
+        // Fermer la base de données après utilisation
+        dbHelper.close();
+
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {

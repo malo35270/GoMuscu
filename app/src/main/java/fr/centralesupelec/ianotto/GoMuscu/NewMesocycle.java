@@ -20,6 +20,8 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,7 +32,6 @@ public class NewMesocycle extends AppCompatActivity implements View.OnClickListe
     private Button boutonNewExo;
     private Button bouttonEffectif;
 
-    public int Nombre_de_seance_new_meso = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,36 +131,40 @@ public class NewMesocycle extends AppCompatActivity implements View.OnClickListe
 
 
     public void testEcritureJSON (String fileName) {
+        File file = new File(getApplicationContext().getFilesDir(), fileName);
 
-        try {
-            JSONObject obj = new JSONObject(testLectureJSON(fileName));
-            Log.i("json_test-long", String.valueOf(obj.length()));
-            if (obj.length() == 0 ) {
-                JSONObject jsonMeso = new JSONObject();
-                jsonMeso.put("nb_de_seance", 0);
-                Log.i("json_test-fin-write", String.valueOf(jsonMeso));
+        if (file.exists()) {
+            // Le fichier existe déjà
+            Log.d("JsonFileHandler", "Le fichier JSON existe déjà.");
 
-                String userString = jsonMeso.toString();
-                File file = new File(getApplicationContext().getFilesDir(), fileName);
-                FileWriter fileWriter = null;
-                try {
-                    fileWriter = new FileWriter(file);
-                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                    bufferedWriter.write(userString);
-                    bufferedWriter.close();
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+            try {
+                JSONObject obj = new JSONObject(testLectureJSON(fileName));
+                Log.i("json_test-long", String.valueOf(obj.length()));
+                if (obj.length() == 0) {
+                    JSONObject jsonMeso = new JSONObject();
+                    jsonMeso.put("nb_de_seance", 0);
+                    Log.i("json_test-fin-write", String.valueOf(jsonMeso));
+
+                    String userString = jsonMeso.toString();
+                    //File file = new File(getApplicationContext().getFilesDir(), fileName);
+                    FileWriter fileWriter = null;
+                    try {
+                        fileWriter = new FileWriter(file);
+                        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                        bufferedWriter.write(userString);
+                        bufferedWriter.close();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
             }
-        } catch (JSONException ex) {
+        } else {
             String jsonContent = "{}"; // Your JSON content here
             writeJsonToInternalStorage(getApplicationContext(),fileName, jsonContent);
-            testEcritureJSON(fileName);
         }
     }
-
-
-
 
     public String testLectureJSON(String fileName) {
         // /data/data/fr.centralesupelec.ianotto.GoMuscu/files

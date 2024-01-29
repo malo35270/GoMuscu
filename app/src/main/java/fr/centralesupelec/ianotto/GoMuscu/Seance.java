@@ -14,8 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +43,8 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
     //DEFINING A STRING ADAPTER WHICH WILL HANDLE THE DATA OF THE LISTVIEW
     private ArrayAdapter<String> adapter;
     private boolean isRunning;
+
+    private JSONHandler file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +153,14 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
                 return false;
             }
         });
+
+
+        JSONObject obj = new JSONObject();
+        String test = new String();
+        test = file.LectureJSON(this, "jsonfileCurrent.json");
+        Toast.makeText(this, test, Toast.LENGTH_LONG).show();
+
+
     }
 
     // Méthode qui permet permet de revenir à l'activité précédente

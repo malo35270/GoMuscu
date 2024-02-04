@@ -14,8 +14,10 @@
         <activity
             android:name=".GestionMesocycle" />
         <activity android:name=".CurrentMesocycle" />
-        <activity android:name=".AfficherContactsActivity" />
+        <activity android:name=".ReprendreSeance" />
         <activity android:name=".NouvelleSeance" />
+        <activity android:name=".addSeance"></activity>
+        <activity android:name=".addExo"></activity>
         <activity android:name=".NewMesocycle" />
         <activity android:name=".Seance"  android:windowSoftInputMode="adjustPan" />
         <activity

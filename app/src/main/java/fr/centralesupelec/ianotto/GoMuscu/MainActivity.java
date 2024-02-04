@@ -9,8 +9,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import fr.centralesupelec.ianotto.GoMuscu.R;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button boutonNouvelleSeance;
@@ -51,11 +49,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.i("donnees", "Base de données existante ouverte avec succès");
         }
 
-//        dbHelper.ajoutData("Chess Press",	4	,8,49,1,1);
-//        dbHelper.ajoutData("Ecarte haltère",	4,7,	41.6,1,1);
-//        dbHelper.ajoutData("Traction Supination",	4,7,	85,1,1);
-//        dbHelper.ajoutData("Curl Marteaux",	4,8,	12,1,1);
-//
+        dbHelper.ajoutData("Chess Press",	4	,8,49,1,1);
+        dbHelper.ajoutData("Ecarte haltère",	4,7,	41.6,1,1);
+        dbHelper.ajoutData("Traction Supination",	4,7,	85,1,1);
+        dbHelper.ajoutData("Curl Marteaux",	4,8,	12,1,1);
+
 //        dbHelper.ajoutData("Chess Press",	4	,8,49,1,2);
 //        dbHelper.ajoutData("Ecarte haltère",	4,6,12,1,2);
 //        dbHelper.ajoutData("Traction Supination",	4,8,	85,1,2);
@@ -90,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(i);
         }
         if (v == boutonReprendreSeance) {
-            i.setClass(getApplicationContext(), AfficherContactsActivity.class);
+            i.setClass(getApplicationContext(), ReprendreSeance.class);
             startActivity(i);
         }
         if (v == boutonGestionnaireMesocycle) {

@@ -1,5 +1,6 @@
 {
   "nb_de_seance": 3,
+  "seance_actuelle": 2,
 
   "seance1": [
     {"nom": "Pecs/Biceps"},

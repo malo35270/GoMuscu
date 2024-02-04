@@ -22,8 +22,6 @@ import java.util.Vector;
 
 public class NouvelleSeance extends AppCompatActivity {
     private Vector<Button> listSeances;
-    private ContactOperations contactOperations;
-
     private LinearLayout linear;
     //for JSON reading :
     private JSONHandler handler = new JSONHandler();
@@ -78,8 +76,6 @@ public class NouvelleSeance extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        //handler.getJsonSeance(obj, 1);
-
         // Pour que la flèche s'affiche dans la barre de titre de l'activité
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Choisir la Séance");
@@ -94,15 +90,4 @@ public class NouvelleSeance extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-
-//    @Override
-//    public void onClick(View v) {
-//        Intent i = new Intent();
-//        Button transform = (Button)v;
-//
-//        //start activity and passes the name of the activity as an id
-//        i.setClass(getApplicationContext(), Seance.class);
-//        i.putExtra("seance", transform.getText().toString());
-//        startActivity(i);
-//    }
 }

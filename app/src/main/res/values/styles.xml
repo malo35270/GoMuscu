@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Other theme attributes -->
+        <item name="android:windowBackground">@drawable/back</item>
+    </style>
+
+    <!-- Theme for night mode -->
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <!-- Other theme attributes -->
+        <item name="android:windowBackground">@drawable/back_dark</item>
+    </style>
+</resources>

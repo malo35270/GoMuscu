@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -27,13 +29,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.CookieHandler;
 
 
-public class CurrentMesocycle extends AppCompatActivity  {
+public class CurrentMesocycle extends BaseActivity  {
 
     private DatabaseHelper dbHelper;
     private SQLiteDatabase database;
     JSONHandler jsonHandler = new JSONHandler();
+    int[] colors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.GRAY, Color.CYAN};
+    private LineGraphSeries<DataPoint>[] seriesArray;
+
+    private int numSeries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,63 +52,7 @@ public class CurrentMesocycle extends AppCompatActivity  {
 
         dbHelper.open();
 
-        // Récupérer le volume à partir de la base de données
-        Cursor cursor = dbHelper.getVolume();
-        Log.i("Cursor_Volume", String.valueOf(cursor));
 
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-
-        LineGraphSeries<DataPoint> series1 = new LineGraphSeries<>();
-        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<>();
-        LineGraphSeries<DataPoint> series3 = new LineGraphSeries<>();
-
-
-
-        // Vérifier si le curseur contient des données
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                // Récupérer les données de chaque colonne
-//                int volume = cursor.getInt(cursor.getColumnIndex("somme_produit"));
-//                int numeroCycle = cursor.getInt(cursor.getColumnIndex("NumCycle"));
-//                int numeroseance = cursor.getInt(cursor.getColumnIndex("NumSeance"));
-
-
-                double volume = cursor.getInt(cursor.getColumnIndex("somme_produit"));
-                int numeroCycle = cursor.getInt(cursor.getColumnIndex("NumCycle"));
-                int numeroseance = cursor.getInt(cursor.getColumnIndex("NumSeance"));
-                int NbReps = cursor.getInt(cursor.getColumnIndex("NbReps"));
-                int NbSerie = cursor.getInt(cursor.getColumnIndex("NbSerie"));
-                int NbPoids = cursor.getInt(cursor.getColumnIndex("NbPoids"));
-                String nom = cursor.getString(cursor.getColumnIndex("nom"));
-                Log.i("Donnees","Nom: " + nom + ", NumeroCycle: " + numeroCycle + ", NumeroSeance: "+numeroseance + ", Series: "+NbSerie +", NbReps: "+NbReps + ", NbPoids: "+NbPoids +", produit: "+volume);
-                // Afficher ou utiliser les données comme vous le souhaitez
-                //Log.d("Donnees", "Volume: " + volume + ", NumeroCycle: " + numeroCycle + ", NumeroSeance: "+numeroseance);
-                if ( numeroseance == 1){
-                    series1.appendData(new DataPoint(numeroCycle, volume), true, /* maxDataPoints */ 100);
-                }
-                if (numeroseance == 2 ){
-                    series2.appendData(new DataPoint(numeroCycle, volume), true, /* maxDataPoints */ 100);
-                }
-                if (numeroseance == 3 ){
-                    series3.appendData(new DataPoint(numeroCycle, volume), true, /* maxDataPoints */ 100);
-                }
-
-
-                // Vous pouvez également mettre à jour votre interface utilisateur ici
-            } while (cursor.moveToNext());
-        }
-
-        // Fermer la base de données après utilisation
-        dbHelper.close();
-
-
-        graph.addSeries(series1);
-        graph.addSeries(series2);
-        graph.addSeries(series3);
-
-
-        // Pour que la flèche s'affiche dans la barre de titre de l'activité
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         LinearLayout monLayout = findViewById(R.id.layoutCurrentMeso);
@@ -110,7 +61,10 @@ public class CurrentMesocycle extends AppCompatActivity  {
             String file = "jsonfileCurrent.json";
             JSONObject obj = new JSONObject(jsonHandler.LectureJSON(this,file));
             Log.i("json", String.valueOf(obj.getInt("nb_de_seance")));
-            for (int i = 1; i < obj.getInt("nb_de_seance")+1; i++){
+            numSeries = obj.getInt("nb_de_seance");
+            seriesArray = new LineGraphSeries[numSeries];
+            for (int i = 1; i < numSeries+1; i++){
+                seriesArray[i-1] = new LineGraphSeries<>();
                 LinearLayout SeanceLayout = new LinearLayout(getApplicationContext());
                 SeanceLayout.setOrientation(LinearLayout.HORIZONTAL);
                 LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
@@ -125,6 +79,8 @@ public class CurrentMesocycle extends AppCompatActivity  {
                 JSONArray jArray = obj.getJSONArray("seance"+i);
                 JSONObject nomSeanceJSON = jArray.getJSONObject(0);
                 nomSeance.setText(nomSeanceJSON.getString("nom"));
+                seriesArray[i-1].setColor(colors[(i-1) % colors.length]);
+                seriesArray[i-1].setTitle(nomSeanceJSON.getString("nom"));
                 LinearLayout.LayoutParams textParam = new LinearLayout.LayoutParams
                         (LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
 
@@ -153,6 +109,53 @@ public class CurrentMesocycle extends AppCompatActivity  {
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+
+
+        // Récupérer le volume à partir de la base de données
+        Cursor cursor = dbHelper.getVolume();
+        Log.i("Cursor_Volume", String.valueOf(cursor));
+
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+
+        // Vérifier si le curseur contient des données
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                // Récupérer les données de chaque colonne
+//                int volume = cursor.getInt(cursor.getColumnIndex("somme_produit"));
+//                int numeroCycle = cursor.getInt(cursor.getColumnIndex("NumCycle"));
+//                int numeroseance = cursor.getInt(cursor.getColumnIndex("NumSeance"));
+
+
+                double volume = cursor.getInt(cursor.getColumnIndex("somme_produit"));
+                int numeroCycle = cursor.getInt(cursor.getColumnIndex("NumCycle"));
+                int numeroseance = cursor.getInt(cursor.getColumnIndex("NumSeance"));
+                int NbReps = cursor.getInt(cursor.getColumnIndex("NbReps"));
+                int NbSerie = cursor.getInt(cursor.getColumnIndex("NbSerie"));
+                int NbPoids = cursor.getInt(cursor.getColumnIndex("NbPoids"));
+                String nom = cursor.getString(cursor.getColumnIndex("nom"));
+                Log.i("Donnees","Nom: " + nom + ", NumeroCycle: " + numeroCycle + ", NumeroSeance: "+numeroseance + ", Series: "+NbSerie +", NbReps: "+NbReps + ", NbPoids: "+NbPoids +", produit: "+volume);
+                // Afficher ou utiliser les données comme vous le souhaitez
+                //Log.d("Donnees", "Volume: " + volume + ", NumeroCycle: " + numeroCycle + ", NumeroSeance: "+numeroseance);
+                if (numeroseance >= 1 && numeroseance <= seriesArray.length) {
+                    seriesArray[numeroseance - 1].appendData(new DataPoint(numeroCycle, volume), true, /* maxDataPoints */ 100);
+                }
+
+
+                // Vous pouvez également mettre à jour votre interface utilisateur ici
+            } while (cursor.moveToNext());
+        }
+
+        // Fermer la base de données après utilisation
+        dbHelper.close();
+
+        graph.getLegendRenderer().setVisible(true);graph.getLegendRenderer().setVisible(true);
+        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP); // or any other desired alignment
+
+        for (int i = 0; i < numSeries; i++) {
+            graph.addSeries(seriesArray[i]);
+        }
+        // Pour que la flèche s'affiche dans la barre de titre de l'activité
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 

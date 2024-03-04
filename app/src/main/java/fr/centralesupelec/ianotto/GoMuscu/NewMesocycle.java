@@ -27,7 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-public class NewMesocycle extends AppCompatActivity implements View.OnClickListener{
+public class NewMesocycle extends BaseActivity implements View.OnClickListener{
     private Button boutonNewSeance;
     private Button boutonNewExo;
     private Button bouttonEffectif;
@@ -106,7 +106,7 @@ public class NewMesocycle extends AppCompatActivity implements View.OnClickListe
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 

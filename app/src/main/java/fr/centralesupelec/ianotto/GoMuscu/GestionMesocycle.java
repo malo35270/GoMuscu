@@ -7,7 +7,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class GestionMesocycle extends AppCompatActivity implements View.OnClickListener {
+public class GestionMesocycle extends BaseActivity implements View.OnClickListener {
     private Button boutonCurrentMeso;
     private Button boutonNewMeso;
 

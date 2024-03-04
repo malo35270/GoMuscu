@@ -3,49 +3,48 @@
   "seance_actuelle": 2,
 
   "seance1": [
-    {"nom": "Pecs/Biceps"},
+    {"nom": "pecs/biceps"},
     {
-      "exo1.1": "Chess Press"
+      "exo1.1": "chess press"
     },
     {
-      "exo1.2": "Écarte haltère"
+      "exo1.2": "ecartes halteres"
     },
     {
-      "exo1.3": "Traction Supination"
+      "exo1.3": "traction supination"
     },
     {
-      "exo1.4": "Curl Marteaux"
+      "exo1.4": "curl marteaux"
     }
   ],
   "seance2": [
-    {"nom": "Dos/Triceps"},
+    {"nom": "dos/triceps"},
     {
-      "exo2.1": "Traction Pronation"
+      "exo2.1": "traction pronation"
     },
     {
-      "exo2.2": "Rowing Planche"
+      "exo2.2": "rowing planche"
     },
     {
-      "exo2.3": "Dips Machine"
+      "exo2.3": "dips machine"
     },
     {
-      "exo2.4": "Extension Haltères"
+      "exo2.4": "extension halteres"
     }
   ],
   "seance3": [
-    {"nom": "Jambes/Épaules"},
+    {"nom": "jambes/epaules"},
     {
-      "exo3.1": "Fentes Bulgares"
+      "exo3.1": "fentes bulgares"
     },
     {
-      "exo3.2": "Leg Curl Ischio"
+      "exo3.2": "leg curl ischio"
     },
     {
-      "exo3.3": "Calf Press"
+      "exo3.3": "calf press"
     },
     {
-      "exo3.4": "Over Head Press"
+      "exo3.4": "over head press"
     }
   ]
-
 }

@@ -2,6 +2,8 @@ package fr.centralesupelec.ianotto.GoMuscu;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,10 +19,12 @@ import org.json.JSONObject;
 
 import java.util.Vector;
 
-public class ReprendreSeance extends AppCompatActivity {
+public class ReprendreSeance extends BaseActivity {
     private JSONHandler handler = new JSONHandler();
     int nb;
     JSONArray arr;
+    private DatabaseHelper dbHelper;
+    private SQLiteDatabase database;
 
     @SuppressLint({"ResourceAsColor", "UseCompatLoadingForDrawables"})
     @Override
@@ -28,20 +32,19 @@ public class ReprendreSeance extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nouvelle_seance);
 
-        try {
-            String file = "jsonfileCurrent.json";
-            JSONObject obj = new JSONObject(handler.LectureJSON(this, file));
-            int seance = obj.getInt("nb_de_seance");
+        dbHelper = new DatabaseHelper(getApplicationContext());
+        database = dbHelper.getWritableDatabase();
+        dbHelper.open();
+        int derniere_Seance = dbHelper.getLastSeance();
+        // Fermer la base de données après utilisation
+        dbHelper.close();
 
-            Intent i = new Intent();
+        Intent i = new Intent();
 
-            //start activity and passes the name of the activity as an id
-            i.setClass(getApplicationContext(), Seance.class);
-            i.putExtra("seance", seance);
-            startActivity(i);
+        //start activity and passes the name of the activity as an id
+        i.setClass(getApplicationContext(), Seance.class);
+        i.putExtra("derniere_seance", derniere_Seance);
 
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+        startActivity(i);
     }
 }

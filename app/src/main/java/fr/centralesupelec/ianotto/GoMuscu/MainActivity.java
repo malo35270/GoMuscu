@@ -1,6 +1,7 @@
 package fr.centralesupelec.ianotto.GoMuscu;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,15 +9,18 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private Button boutonNouvelleSeance;
+    public int uiMode;
     private Button boutonReprendreSeance;
     private Button boutonGestionnaireMesocycle;
     private Button boutonParametreCompte;
     private DatabaseHelper dbHelper;
     private SQLiteDatabase database;
+    public boolean shouldRecreateOnResume = false;
 
 
     @Override
@@ -49,13 +53,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.i("donnees", "Base de données existante ouverte avec succès");
         }
 
-        dbHelper.ajoutData("Chess Press",	4	,8,49,1,1);
-        dbHelper.ajoutData("Ecarte haltère",	4,7,	41.6,1,1);
-        dbHelper.ajoutData("Traction Supination",	4,7,	85,1,1);
-        dbHelper.ajoutData("Curl Marteaux",	4,8,	12,1,1);
-
+//        dbHelper.ajoutData("Chess Press",	4	,8,49,1,1);
+//        dbHelper.ajoutData("Écartés Haltères",	4,7,	41.6,1,1);
+//        dbHelper.ajoutData("Traction Supination",	4,7,	85,1,1);
+//        dbHelper.ajoutData("Curl Marteaux",	4,8,	12,1,1);
+//
 //        dbHelper.ajoutData("Chess Press",	4	,8,49,1,2);
-//        dbHelper.ajoutData("Ecarte haltère",	4,6,12,1,2);
+//        dbHelper.ajoutData("Écartés Haltères",	4,6,12,1,2);
 //        dbHelper.ajoutData("Traction Supination",	4,8,	85,1,2);
 //        dbHelper.ajoutData("Curl Marteaux",	4,12,10,1,2);
 //
@@ -78,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        dbHelper.ajoutData("Leg curl ischio",	4,10,	55.4,3,2);
 //        dbHelper.ajoutData("calf press",	4,10,	93,3,2);
 //        dbHelper.ajoutData("over head press",	4,6,35,3,2);
+
+
     }
 
     @Override

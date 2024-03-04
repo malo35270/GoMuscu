@@ -3,13 +3,16 @@ package fr.centralesupelec.ianotto.GoMuscu;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.provider.LiveFolders;
 import android.util.Log;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,29 +21,32 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+
+//import com.spotify.android.appremote.api.ConnectionParams;
+//import com.spotify.android.appremote.api.Connector;
+//import com.spotify.android.appremote.api.SpotifyAppRemote;
+//
+//import com.spotify.protocol.client.Subscription;
+//import com.spotify.protocol.types.PlayerState;
+//import com.spotify.protocol.types.Track;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Vector;
 
-public class Seance extends AppCompatActivity implements View.OnClickListener {
+
+public class Seance extends BaseActivity implements View.OnClickListener {
 
 
     //Music
@@ -77,8 +83,17 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
     //for JSON reading :
     private String file = "jsonfileCurrent.json";
     private JSONHandler handler = new JSONHandler();
+
+    private DatabaseHelper dbHelper;
+    private SQLiteDatabase database;
     int nb;
+    boolean num_cycle_modifier = false;
+    int derniere_seance;
+    private String exo_actuelle;
     Vector<String> exo = new Vector<>();
+    private Cursor cursor_derniere_seance;
+    private int NumCycle = 0;
+    private int NumCycle_actuelle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +105,17 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         nb = getIntent().getExtras().getInt("seance", 0);
+        derniere_seance = getIntent().getExtras().getInt("derniere_seance", -1);
+        Log.i("reprendre_seance", String.valueOf(derniere_seance));
+        if (derniere_seance != -1){
+            dbHelper = new DatabaseHelper(getApplicationContext());
+            database = dbHelper.getWritableDatabase();
+            dbHelper.open();
+            Pair<Cursor, Integer> pair = dbHelper.getSeancesById(derniere_seance);
+            cursor_derniere_seance = pair.first;
+            nb = pair.second;
 
+        }
         try {
             String file = "jsonfileCurrent.json";
             JSONObject obj = new JSONObject(handler.LectureJSON(this, file));
@@ -101,11 +126,11 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
             Log.i("json", arr.toString());
             for (int i = 1; i < arr.length(); i++) {
                 exo.add(handler.getJsonExo(arr, nb, i));
+                Log.i("json", exo.toString());
             }
         } catch (JSONException e) {
             Toast.makeText(this, "error loading JSON", Toast.LENGTH_LONG).show();
         }
-
 
 
         //seance = getIntent().getExtras().getString("seance", "default_seance");
@@ -115,17 +140,53 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
         //TAKES CARE OF THE LISTVIEW FOR EXERCICES
         listItems = new ArrayList<String>(exo);
         list = findViewById(R.id.listExo);
-        adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                view.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Sélectionnez l'élément cliqué
+                list.setSelection(position);
+                Log.i("seance_malo_click", String.valueOf(position));
+                // Obtenez l'élément sélectionné si nécessaire
+                Object selectedItem = parent.getItemAtPosition(position);
+                // Démarrez une nouvelle activité en réponse à la sélection de l'élément
+                dbHelper = new DatabaseHelper(getApplicationContext());
+                database = dbHelper.getWritableDatabase();
+                dbHelper.open();
+                exo_actuelle = exo.get(position);
+                Cursor cursor;
+                if (derniere_seance == -1){
+                    cursor = dbHelper.getLastData(exo.get(position));
+                }else{
+                    cursor = cursor_derniere_seance;
+                    Log.i("reprendre_derniere", cursor.toString());
+                }
+                if (cursor != null && cursor.moveToFirst()) {
+                    if (derniere_seance != -1){
+                        cursor.moveToPosition(position);
+                    }
+                    do {
+                        int NbReps = cursor.getInt(cursor.getColumnIndex("NbReps"));
+                        int NbSerie = cursor.getInt(cursor.getColumnIndex("NbSerie"));
+                        int NbPoids = cursor.getInt(cursor.getColumnIndex("NbPoids"));
+                        NumCycle = cursor.getInt(cursor.getColumnIndex("NumCycle"));
+                        Log.i("seance_malo_db_result","Nbserie "+NbSerie+"reps "+NbReps+"poids "+NbPoids + "NumCycle :"+NumCycle);
+                        old_kg.setText(String.valueOf(NbPoids));
+                        old_rep.setText(String.valueOf(NbReps));
+                        old_ser.setText(String.valueOf(NbSerie));
+                        if (derniere_seance != -1){
+                            break;
+                        }
+                    } while (cursor.moveToNext());
+                }
 
+                // Fermer la base de données après utilisation
+                dbHelper.close();
+            }
         });
+
+
 
         //assess id to object
         old_kg = findViewById(R.id.old_kg);
@@ -154,10 +215,15 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
         musicTitle = findViewById(R.id.musicName);
         musicBar = findViewById(R.id.musicBar);
 
+
         //set onclick view listener
+
+
+
         old_kg.setOnClickListener(this);
         old_rep.setOnClickListener(this);
         old_ser.setOnClickListener(this);
+
 
         kg.setOnClickListener(this);
         rep.setOnClickListener(this);
@@ -288,6 +354,30 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
         if (v == minus2) {rep.setText(String.valueOf(Integer.valueOf(rep.getText().toString()) - 1));}
         if (v == minus3) {kg.setText(String.valueOf(Integer.valueOf(kg.getText().toString()) - 1));}
 
+         //ajoutData(String name, int series,int reps, double poids, int numeroseance, int numerocycle
+
+        dbHelper = new DatabaseHelper(this);
+        database = dbHelper.getWritableDatabase();
+        dbHelper.open();
+
+        if (derniere_seance == -1 && !num_cycle_modifier){
+            NumCycle_actuelle = NumCycle+1;
+            num_cycle_modifier = true;
+        }
+        boolean isCycleEqual = dbHelper.isLastCycleNumberEqual(exo_actuelle, NumCycle_actuelle);
+        if (derniere_seance == -1 && !isCycleEqual) {
+            Log.i("view_ajouter_data","Nouvelle valeur; NumSeance :"+nb + " NumCycle : "+ NumCycle_actuelle );
+            Log.i("view_ajouter_data","ser " + ser.getText().toString()+ " rep "+ rep.getText().toString()+ " kg "+kg.getText().toString());
+            dbHelper.ajoutData(exo_actuelle, Integer.valueOf(ser.getText().toString()), Integer.valueOf(rep.getText().toString()), Double.valueOf(kg.getText().toString()), nb, NumCycle_actuelle);
+            dbHelper.close();
+            NumCycle = NumCycle_actuelle;
+        } else {
+            Log.i("view_ajouter_data","modification valeur; NumSeance :"+nb + " NumCycle : "+ NumCycle);
+            Log.i("view_ajouter_data","ser " + ser.getText().toString()+ " rep "+ rep.getText().toString()+ " kg "+kg.getText().toString());
+            dbHelper.modifierData(exo_actuelle, Integer.valueOf(ser.getText().toString()), Integer.valueOf(rep.getText().toString()), Double.valueOf(kg.getText().toString()), nb, NumCycle_actuelle);
+            dbHelper.close();
+        }
+
         if (v == prev) {
             musicNum = ((musicNum + 1)%5);
             if (musicNum==0){musicNum=1;}
@@ -387,6 +477,31 @@ public class Seance extends AppCompatActivity implements View.OnClickListener {
             minutes.setText(timem);
             seconds.setText(times);
         }
+    }
+
+    // Spotify
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+        SpotifyAppRemote.connect(this, mConnectionParams, mConnectionListener);
+    }
+
+    private void connected() {
+        // Then we will write some more code here.
+    }
+
+    @Override
+    protected void onDestroy() {
+        dbHelper.close();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
     }
 
 

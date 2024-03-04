@@ -1,6 +1,8 @@
 package fr.centralesupelec.ianotto.GoMuscu;
 
 import android.content.Intent;
+import android.icu.text.Transliterator;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,8 +21,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.Normalizer;
 
-public class addSeance extends AppCompatActivity {
+public class addSeance extends BaseActivity {
 
 
     private Button ajouterSeance;
@@ -46,6 +49,9 @@ public class addSeance extends AppCompatActivity {
                 if (v == ajouterSeance) {
                     String editTextValue = simpleEditText.getText().toString();
                     Log.i("edittext",editTextValue);
+                    editTextValue = Normalizer.normalize(editTextValue, Normalizer.Form.NFD)
+                            .replaceAll("[^\\p{ASCII}]", "")
+                            .toLowerCase();
                     testEcritureJSON(editTextValue);
                     i.setClass(getApplicationContext(), NewMesocycle.class);
                     startActivity(i);

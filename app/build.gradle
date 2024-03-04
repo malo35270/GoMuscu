@@ -11,8 +11,11 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                redirectSchemeName: "GoMuscu",
+                redirectHostName: "spotify-callback"
+        ]
     }
 
     buildTypes {
@@ -29,7 +32,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
@@ -38,4 +40,16 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.jjoe64:graphview:4.2.2'
+    implementation fileTree(dir: 'libs/android-sdk-0.8.0-appremote_v2.1.0-auth/android-sdk-0.8.0-appremote_v2.1.0-auth', include: ['*.aar'])
+    implementation 'com.spotify.android:auth:2.1.0'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation "androidx.appcompat:appcompat:1.4.0"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    implementation "com.google.code.gson:gson:2.6.1"
+    implementation 'com.android.volley:volley:1.1.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(':spotify-app-remote')
+    implementation "com.google.code.gson:gson:2.6.1"
 }

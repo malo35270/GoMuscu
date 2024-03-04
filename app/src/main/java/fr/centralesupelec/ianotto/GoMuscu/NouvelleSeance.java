@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 import java.util.Vector;
 
-public class NouvelleSeance extends AppCompatActivity {
+public class NouvelleSeance extends BaseActivity {
     private Vector<Button> listSeances;
     private LinearLayout linear;
     //for JSON reading :
@@ -67,6 +67,8 @@ public class NouvelleSeance extends AppCompatActivity {
                         //start activity and passes the name of the activity as an id
                         i.setClass(getApplicationContext(), Seance.class);
                         i.putExtra("seance", v.getId());
+                        i.putExtra("numberForTheExercice", -1);
+
                         startActivity(i);
 
                     }

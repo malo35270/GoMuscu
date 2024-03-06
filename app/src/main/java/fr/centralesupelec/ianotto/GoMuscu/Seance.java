@@ -114,6 +114,17 @@ public class Seance extends BaseActivity implements View.OnClickListener {
             Pair<Cursor, Integer> pair = dbHelper.getSeancesById(derniere_seance);
             cursor_derniere_seance = pair.first;
             nb = pair.second;
+            if (cursor_derniere_seance.moveToFirst()) {
+                do {
+                    // Boucle à travers toutes les lignes du curseur
+                    for (int i = 0; i < cursor_derniere_seance.getColumnCount(); i++) {
+                        // Affichez chaque colonne pour la ligne actuelle du curseur
+                        Log.d("probleme_cursor", cursor_derniere_seance.getColumnName(i) + ": " + cursor_derniere_seance.getString(i));
+                    }
+                } while (cursor_derniere_seance.moveToNext()); // Passez à la ligne suivante
+            }
+
+
 
         }
         try {
@@ -163,9 +174,9 @@ public class Seance extends BaseActivity implements View.OnClickListener {
                     Log.i("reprendre_derniere", cursor.toString());
                 }
                 if (cursor != null && cursor.moveToFirst()) {
-                    if (derniere_seance != -1){
-                        cursor.moveToPosition(position);
-                    }
+//                    if (derniere_seance != -1){
+//                        cursor.moveToPosition(position);
+//                    }
                     do {
                         int NbReps = cursor.getInt(cursor.getColumnIndex("NbReps"));
                         int NbSerie = cursor.getInt(cursor.getColumnIndex("NbSerie"));
@@ -339,9 +350,19 @@ public class Seance extends BaseActivity implements View.OnClickListener {
     // de l'activité
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        // Si derniere_seance est différent de -1, déclencher une autre activité
+        if (derniere_seance != -1) {
+            // Démarrez votre autre activité ici
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            return true; // Indique que l'action a été traitée
+        } else {
+            // Sinon, effectuez le comportement par défaut (retour arrière)
+            onBackPressed();
+            return true;
+        }
     }
+
 
     @Override
     public void onClick(View v) {
@@ -484,8 +505,8 @@ public class Seance extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onStart() {
         super.onStart();
-        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
-        SpotifyAppRemote.connect(this, mConnectionParams, mConnectionListener);
+//        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+//        SpotifyAppRemote.connect(this, mConnectionParams, mConnectionListener);
     }
 
     private void connected() {
@@ -501,7 +522,7 @@ public class Seance extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onStop() {
         super.onStop();
-        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+//        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
     }
 
 

@@ -13,13 +13,13 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.spotify.android.appremote.api.ConnectionParams;
-import com.spotify.android.appremote.api.Connector;
-import com.spotify.android.appremote.api.SpotifyAppRemote;
-
-import com.spotify.protocol.client.Subscription;
-import com.spotify.protocol.types.PlayerState;
-import com.spotify.protocol.types.Track;
+//import com.spotify.android.appremote.api.ConnectionParams;
+//import com.spotify.android.appremote.api.Connector;
+//import com.spotify.android.appremote.api.SpotifyAppRemote;
+//
+//import com.spotify.protocol.client.Subscription;
+//import com.spotify.protocol.types.PlayerState;
+//import com.spotify.protocol.types.Track;
 
 
 import androidx.annotation.RequiresApi;
@@ -48,7 +48,7 @@ public class parametreCompte extends BaseActivity {
 
 
 
-        authenticateSpotify();
+//        authenticateSpotify();
 
         msharedPreferences = this.getSharedPreferences("SPOTIFY", 0);
         queue = Volley.newRequestQueue(this);
@@ -72,59 +72,59 @@ public class parametreCompte extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
-    private void authenticateSpotify() {
-        AuthenticationRequest.Builder builder;
-        builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
-        builder.setScopes(new String[]{"streaming"});
-        AuthenticationRequest request = builder.build();
-
-        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
-    }
-    private void waitForUserInfo() {
-        UserService userService = new UserService(queue, msharedPreferences);
-        userService.get(() -> {
-            User user = userService.getUser();
-            SharedPreferences.Editor editor = getSharedPreferences("SPOTIFY", 0).edit();
-            editor.putString("userid", user.id);
-            Log.d("STARTING", "GOT USER INFORMATION");
-            // We use commit instead of apply because we need the information stored immediately
-            editor.commit();
-            startMainActivity();
-        });
-    }
+//    private void authenticateSpotify() {
+//        AuthenticationRequest.Builder builder;
+//        builder = new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
+//        builder.setScopes(new String[]{"streaming"});
+//        AuthenticationRequest request = builder.build();
+//
+//        AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
+//    }
+//    private void waitForUserInfo() {
+//        UserService userService = new UserService(queue, msharedPreferences);
+//        userService.get(() -> {
+//            User user = userService.getUser();
+//            SharedPreferences.Editor editor = getSharedPreferences("SPOTIFY", 0).edit();
+//            editor.putString("userid", user.id);
+//            Log.d("STARTING", "GOT USER INFORMATION");
+//            // We use commit instead of apply because we need the information stored immediately
+//            editor.commit();
+//            startMainActivity();
+//        });
+//    }
     private void startMainActivity() {
         Intent newintent = new Intent(parametreCompte.this, MainActivity.class);
         startActivity(newintent);
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-
-         //Check if result comes from the correct activity
-        if (requestCode == REQUEST_CODE) {
-            AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
-
-            switch (response.getType()) {
-                // Response was successful and contains auth token
-                case TOKEN:
-                    SharedPreferences.Editor editor = getSharedPreferences("SPOTIFY", 0).edit();
-                    editor.putString("token", response.getAccessToken());
-                    Log.d("STARTING", "GOT AUTH TOKEN");
-                    editor.apply();
-                    waitForUserInfo();
-                    break;
-
-                // Auth flow returned an error
-                case ERROR:
-                    // Handle error response
-                    break;
-
-                // Most likely auth flow was cancelled
-                default:
-                    // Handle other cases
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+//        super.onActivityResult(requestCode, resultCode, intent);
+//
+//         //Check if result comes from the correct activity
+//        if (requestCode == REQUEST_CODE) {
+//            AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
+//
+//            switch (response.getType()) {
+//                // Response was successful and contains auth token
+//                case TOKEN:
+//                    SharedPreferences.Editor editor = getSharedPreferences("SPOTIFY", 0).edit();
+//                    editor.putString("token", response.getAccessToken());
+//                    Log.d("STARTING", "GOT AUTH TOKEN");
+//                    editor.apply();
+//                    waitForUserInfo();
+//                    break;
+//
+//                // Auth flow returned an error
+//                case ERROR:
+//                    // Handle error response
+//                    break;
+//
+//                // Most likely auth flow was cancelled
+//                default:
+//                    // Handle other cases
+//            }
+//        }
+//    }
 
 
 

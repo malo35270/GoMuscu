@@ -21,12 +21,10 @@ import org.json.JSONObject;
 import java.util.Vector;
 
 public class NouvelleSeance extends BaseActivity {
-    private Vector<Button> listSeances;
     private LinearLayout linear;
     //for JSON reading :
     private JSONHandler handler = new JSONHandler();
     int nb;
-    JSONArray arr;
 
     @SuppressLint({"ResourceAsColor", "UseCompatLoadingForDrawables"})
     @Override
@@ -83,10 +81,6 @@ public class NouvelleSeance extends BaseActivity {
         getSupportActionBar().setTitle("Choisir la Séance");
         // On gère l'évènement "click" sur les boutons
     }
-
-    // Méthode qui permet permet de revenir à l'activité précédente
-    // lorsqu'on clique sur la flèche qui se trouve dans la barre de titre
-    // de l'activité
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

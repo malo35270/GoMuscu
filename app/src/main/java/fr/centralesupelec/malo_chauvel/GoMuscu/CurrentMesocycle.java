@@ -1,7 +1,5 @@
 package fr.centralesupelec.ianotto.GoMuscu;
-
-import android.content.Context;
-import android.content.res.AssetManager;
+;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -10,7 +8,6 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
@@ -20,16 +17,6 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.CookieHandler;
 
 
 public class CurrentMesocycle extends BaseActivity  {
@@ -111,20 +98,13 @@ public class CurrentMesocycle extends BaseActivity  {
         }
 
 
-        // Récupérer le volume à partir de la base de données
         Cursor cursor = dbHelper.getVolume();
-        Log.i("Cursor_Volume", String.valueOf(cursor));
 
         GraphView graph = (GraphView) findViewById(R.id.graph);
 
         // Vérifier si le curseur contient des données
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                // Récupérer les données de chaque colonne
-//                int volume = cursor.getInt(cursor.getColumnIndex("somme_produit"));
-//                int numeroCycle = cursor.getInt(cursor.getColumnIndex("NumCycle"));
-//                int numeroseance = cursor.getInt(cursor.getColumnIndex("NumSeance"));
-
 
                 double volume = cursor.getInt(cursor.getColumnIndex("somme_produit"));
                 int numeroCycle = cursor.getInt(cursor.getColumnIndex("NumCycle"));
@@ -133,15 +113,9 @@ public class CurrentMesocycle extends BaseActivity  {
                 int NbSerie = cursor.getInt(cursor.getColumnIndex("NbSerie"));
                 int NbPoids = cursor.getInt(cursor.getColumnIndex("NbPoids"));
                 String nom = cursor.getString(cursor.getColumnIndex("nom"));
-                Log.i("Donnees","Nom: " + nom + ", NumeroCycle: " + numeroCycle + ", NumeroSeance: "+numeroseance + ", Series: "+NbSerie +", NbReps: "+NbReps + ", NbPoids: "+NbPoids +", produit: "+volume);
-                // Afficher ou utiliser les données comme vous le souhaitez
-                //Log.d("Donnees", "Volume: " + volume + ", NumeroCycle: " + numeroCycle + ", NumeroSeance: "+numeroseance);
                 if (numeroseance >= 1 && numeroseance <= seriesArray.length) {
                     seriesArray[numeroseance - 1].appendData(new DataPoint(numeroCycle, volume), true, /* maxDataPoints */ 100);
                 }
-
-
-                // Vous pouvez également mettre à jour votre interface utilisateur ici
             } while (cursor.moveToNext());
         }
 

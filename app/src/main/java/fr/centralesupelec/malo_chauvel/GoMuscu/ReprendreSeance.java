@@ -20,9 +20,6 @@ import org.json.JSONObject;
 import java.util.Vector;
 
 public class ReprendreSeance extends BaseActivity {
-    private JSONHandler handler = new JSONHandler();
-    int nb;
-    JSONArray arr;
     private DatabaseHelper dbHelper;
     private SQLiteDatabase database;
 

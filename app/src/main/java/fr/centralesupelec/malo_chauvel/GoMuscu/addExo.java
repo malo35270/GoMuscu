@@ -1,15 +1,11 @@
 package fr.centralesupelec.ianotto.GoMuscu;
 
 import android.content.Intent;
-import android.icu.text.Transliterator;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,30 +19,26 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.Normalizer;
 
-public class addSeance extends BaseActivity {
+public class addExo extends BaseActivity {
 
 
-    private Button ajouterSeance;
-
-    public Button getAjouterSeance() {
-        return ajouterSeance;
-    }
+    private Button ajouterExo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_json_seance);
+        setContentView(R.layout.activity_add_json_exo);
 
         // On récupère une référence sur le bouton Effacer
         EditText simpleEditText = (EditText) findViewById(R.id.edit_text);
+        String editTextValue = simpleEditText.getText().toString();
+        testEcritureJSON(editTextValue);
 
-
-
-        ajouterSeance = findViewById(R.id.boutonAddJson);
-        ajouterSeance.setOnClickListener(new View.OnClickListener() {
+        ajouterExo = findViewById(R.id.boutonAddJson);
+        ajouterExo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent();
-                if (v == ajouterSeance) {
+                if (v == ajouterExo) {
                     String editTextValue = simpleEditText.getText().toString();
                     Log.i("edittext",editTextValue);
                     editTextValue = Normalizer.normalize(editTextValue, Normalizer.Form.NFD)
@@ -62,18 +54,17 @@ public class addSeance extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
+
     public void testEcritureJSON (String text) {
         // Convert JsonObject to String Format
         String fileName = "jsonfileNew.json";
         JSONObject jsonMeso;
         try {
             jsonMeso = new JSONObject(testLectureJSON());
-            jsonMeso.put("nb_de_seance",jsonMeso.getInt("nb_de_seance")+1);
-            JSONArray jsonArray = new JSONArray();
-            jsonMeso.put("seance"+jsonMeso.getInt("nb_de_seance"),jsonArray);
-            JSONObject seance = new JSONObject();
-            seance.put("nom",text);
-            jsonArray.put(seance);
+            JSONArray seance = jsonMeso.getJSONArray("seance"+jsonMeso.getInt("nb_de_seance"));
+            JSONObject exo = new JSONObject();
+            exo.put("exo"+jsonMeso.getInt("nb_de_seance")+"."+seance.length(),text);
+            seance.put(exo);
             Log.i("json_test-fin-add", String.valueOf(jsonMeso));
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -115,16 +106,17 @@ public class addSeance extends BaseActivity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        // This responce will have Json Format String
         return stringBuilder.toString();
     }
 
-    // Méthode qui permet permet de revenir à l'activité précédente
-    // lorsqu'on clique sur la flèche qui se trouve dans la barre de titre
-    // de l'activité
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
     }
 }

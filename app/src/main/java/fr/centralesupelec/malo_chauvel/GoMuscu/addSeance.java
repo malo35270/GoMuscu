@@ -23,30 +23,26 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.Normalizer;
 
-public class addExo extends BaseActivity {
+public class addSeance extends BaseActivity {
 
 
-    private Button ajouterExo;
+    private Button ajouterSeance;
 
-    public Button getAjouterSeance() {
-        return ajouterExo;
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_json_exo);
+        setContentView(R.layout.activity_add_json_seance);
 
-        // On récupère une référence sur le bouton Effacer
         EditText simpleEditText = (EditText) findViewById(R.id.edit_text);
-        String editTextValue = simpleEditText.getText().toString();
-        testEcritureJSON(editTextValue);
 
-        ajouterExo = findViewById(R.id.boutonAddJson);
-        ajouterExo.setOnClickListener(new View.OnClickListener() {
+
+
+        ajouterSeance = findViewById(R.id.boutonAddJson);
+        ajouterSeance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent();
-                if (v == ajouterExo) {
+                if (v == ajouterSeance) {
                     String editTextValue = simpleEditText.getText().toString();
                     Log.i("edittext",editTextValue);
                     editTextValue = Normalizer.normalize(editTextValue, Normalizer.Form.NFD)
@@ -62,17 +58,18 @@ public class addExo extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
-
     public void testEcritureJSON (String text) {
         // Convert JsonObject to String Format
         String fileName = "jsonfileNew.json";
         JSONObject jsonMeso;
         try {
             jsonMeso = new JSONObject(testLectureJSON());
-            JSONArray seance = jsonMeso.getJSONArray("seance"+jsonMeso.getInt("nb_de_seance"));
-            JSONObject exo = new JSONObject();
-            exo.put("exo"+jsonMeso.getInt("nb_de_seance")+"."+seance.length(),text);
-            seance.put(exo);
+            jsonMeso.put("nb_de_seance",jsonMeso.getInt("nb_de_seance")+1);
+            JSONArray jsonArray = new JSONArray();
+            jsonMeso.put("seance"+jsonMeso.getInt("nb_de_seance"),jsonArray);
+            JSONObject seance = new JSONObject();
+            seance.put("nom",text);
+            jsonArray.put(seance);
             Log.i("json_test-fin-add", String.valueOf(jsonMeso));
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -117,18 +114,9 @@ public class addExo extends BaseActivity {
         // This responce will have Json Format String
         return stringBuilder.toString();
     }
-
-    // Méthode qui permet permet de revenir à l'activité précédente
-    // lorsqu'on clique sur la flèche qui se trouve dans la barre de titre
-    // de l'activité
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-        super.onPointerCaptureChanged(hasCapture);
     }
 }

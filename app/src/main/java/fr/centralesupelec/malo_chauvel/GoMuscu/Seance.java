@@ -47,9 +47,6 @@ import java.util.Vector;
 
 
 public class Seance extends BaseActivity implements View.OnClickListener {
-
-
-    //Music
     private MediaPlayer mediaPlayer;
     private Vector<String> musicList;
     private int musicNum;
@@ -80,8 +77,6 @@ public class Seance extends BaseActivity implements View.OnClickListener {
     private ArrayList<String> listItems;
     private ArrayAdapter<String> adapter;
 
-    //for JSON reading :
-    private String file = "jsonfileCurrent.json";
     private JSONHandler handler = new JSONHandler();
 
     private DatabaseHelper dbHelper;
@@ -144,8 +139,6 @@ public class Seance extends BaseActivity implements View.OnClickListener {
         }
 
 
-        //seance = getIntent().getExtras().getString("seance", "default_seance");
-        //pour que le nom de la séance soit dans l'actionBar
         getSupportActionBar().setTitle(seance);
 
         //TAKES CARE OF THE LISTVIEW FOR EXERCICES
@@ -174,9 +167,6 @@ public class Seance extends BaseActivity implements View.OnClickListener {
                     Log.i("reprendre_derniere", cursor.toString());
                 }
                 if (cursor != null && cursor.moveToFirst()) {
-//                    if (derniere_seance != -1){
-//                        cursor.moveToPosition(position);
-//                    }
                     do {
                         int NbReps = cursor.getInt(cursor.getColumnIndex("NbReps"));
                         int NbSerie = cursor.getInt(cursor.getColumnIndex("NbSerie"));

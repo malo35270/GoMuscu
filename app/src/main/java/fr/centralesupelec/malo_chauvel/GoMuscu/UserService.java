@@ -1,4 +1,4 @@
-package fr.centralesupelec.ianotto.GoMuscu;
+package fr.centralesupelec.malo_chauvel.GoMuscu;
 
 import android.content.SharedPreferences;
 

@@ -1,9 +1,8 @@
-package fr.centralesupelec.ianotto.GoMuscu;
+package fr.centralesupelec.malo_chauvel.GoMuscu;
 
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,7 +74,7 @@ public class JSONHandler {
     }
 
     public String LectureJSON(Context context, String fileName) {
-        // /data/data/fr.centralesupelec.ianotto.GoMuscu/files
+
         File file = new File(context.getFilesDir(), fileName);
         String line = null;
         StringBuilder stringBuilder = null;

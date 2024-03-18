@@ -1,23 +1,9 @@
-package fr.centralesupelec.ianotto.GoMuscu;
+package fr.centralesupelec.malo_chauvel.GoMuscu;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Vector;
 
 public class ReprendreSeance extends BaseActivity {
     private DatabaseHelper dbHelper;

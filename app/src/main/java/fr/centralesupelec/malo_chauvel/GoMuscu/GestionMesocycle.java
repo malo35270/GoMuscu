@@ -1,11 +1,9 @@
-package fr.centralesupelec.ianotto.GoMuscu;
+package fr.centralesupelec.malo_chauvel.GoMuscu;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class GestionMesocycle extends BaseActivity implements View.OnClickListener {
     private Button boutonCurrentMeso;

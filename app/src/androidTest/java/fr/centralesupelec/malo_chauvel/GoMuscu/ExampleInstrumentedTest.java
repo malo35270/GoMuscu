@@ -1,4 +1,4 @@
-package fr.centralesupelec.ianotto.GoMuscu;
+package fr.centralesupelec.malo_chauvel.GoMuscu;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("fr.centralesupelec.ianotto.projetbasededonneesnew", appContext.getPackageName());
+        assertEquals("fr.centralesupelec.malo_chauvel.projetbasededonneesnew", appContext.getPackageName());
     }
 }

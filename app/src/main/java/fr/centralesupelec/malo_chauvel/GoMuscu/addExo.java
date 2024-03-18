@@ -1,4 +1,4 @@
-package fr.centralesupelec.ianotto.GoMuscu;
+package fr.centralesupelec.malo_chauvel.GoMuscu;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -87,7 +87,6 @@ public class addExo extends BaseActivity {
     }
 
     public String testLectureJSON() {
-        // /data/data/fr.centralesupelec.ianotto.GoMuscu/files
         String fileName = "jsonfileNew.json";
 
         File file = new File(getFilesDir(), fileName);

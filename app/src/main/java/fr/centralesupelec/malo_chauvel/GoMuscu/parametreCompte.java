@@ -1,13 +1,9 @@
-package fr.centralesupelec.ianotto.GoMuscu;
-
-import static com.spotify.sdk.android.auth.AccountsQueryParameters.ERROR;
-import static com.spotify.sdk.android.auth.AuthorizationResponse.Type.TOKEN;
+package fr.centralesupelec.malo_chauvel.GoMuscu;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;

@@ -6,7 +6,7 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId 'fr.centralesupelec.ianotto.GoMuscu'
+        applicationId 'fr.centralesupelec.malo_chauvel.GoMuscu'
         minSdk 21
         targetSdk 34
         versionCode 1
@@ -28,7 +28,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    namespace 'fr.centralesupelec.ianotto.GoMuscu'
+    namespace 'fr.centralesupelec.malo_chauvel.GoMuscu'
 }
 
 dependencies {

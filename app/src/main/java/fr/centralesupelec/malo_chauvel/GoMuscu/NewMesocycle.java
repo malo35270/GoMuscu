@@ -1,4 +1,4 @@
-package fr.centralesupelec.ianotto.GoMuscu;
+package fr.centralesupelec.malo_chauvel.GoMuscu;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,8 +19,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -167,7 +164,6 @@ public class NewMesocycle extends BaseActivity implements View.OnClickListener{
     }
 
     public String testLectureJSON(String fileName) {
-        // /data/data/fr.centralesupelec.ianotto.GoMuscu/files
         File file = new File(getFilesDir(), fileName);
         String line = null;
         StringBuilder stringBuilder = null;

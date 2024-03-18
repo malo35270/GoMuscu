@@ -1,15 +1,11 @@
-package fr.centralesupelec.ianotto.GoMuscu;
+package fr.centralesupelec.malo_chauvel.GoMuscu;
 
 import android.content.Intent;
-import android.icu.text.Transliterator;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,7 +88,6 @@ public class addSeance extends BaseActivity {
     }
 
     public String testLectureJSON() {
-        // /data/data/fr.centralesupelec.ianotto.GoMuscu/files
         String fileName = "jsonfileNew.json";
 
         File file = new File(getFilesDir(), fileName);
